@@ -464,12 +464,12 @@ function initCoupleVideoPlayback() {
         requestFullscreen(coupleVideo);
     });
 
-    // Also allow fullscreen when tapping the video on mobile
+    // Open video preview on single click (center of video)
     coupleVideo.addEventListener('click', function(e) {
-        if (window.innerWidth <= 768) {
-            console.log('Mobile tap detected, requesting fullscreen');
-            requestFullscreen(coupleVideo);
-        }
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Video clicked, opening fullscreen');
+        requestFullscreen(coupleVideo);
     });
 
     // Video can be played directly with native controls
