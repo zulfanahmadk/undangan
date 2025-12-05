@@ -29,18 +29,18 @@
 
         <!-- Invitation Panel -->
         <div class="invitation-panel" id="invitationPanel">
-            <button class="close-btn" id="closeBtn">&times;</button>
 
             <!-- Left Side (Static) -->
             <div class="panel-left">
                 <button class="panel-audio-toggle" id="panelAudioToggle" title="Toggle Audio">
                     <span class="audio-icon">🔊</span>
                 </button>
+                <button class="close-btn" id="closeBtn">&times;</button>
                 <div class="panel-left-content">
                     <div class="left-title">The Wedding Of</div>
                     <div class="left-subtitle">Pipit & Pael</div>
                     <div class="left-text">
-                        <p style="margin-top: 20px; font-size: 12px;">Sabtu, 17 Januari 2026<br>Garut, Indonesia</p>
+                        <p style="margin-top: 20px; font-size: 12px;">Sabtu, 17 Januari 2026<br>Garut</p>
                     </div>
                 </div>
             </div>
@@ -90,7 +90,7 @@
                     </div>
 
                     <div class="right-section gift-section">
-                        <p class="gift-subtitle">"وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ"</p>
+                        <p class="section-title">"وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ"</p>
                         <p class="gift-subtitle">"Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang. Sungguh, pada yang demikian itu benar-benar terdapat tanda-tanda (kebesaran Allah) bagi kaum yang berpikir."</p>
                         <h3 class="section-title">QS. Ar-Rum 21</h3>
                     </div>
@@ -110,7 +110,7 @@
                     <div class="right-section event-section">
                         <h3 class="section-title">Akad Nikah</h3>
                         <p class="event-date">Sabtu 17 Januari 2026</p>
-                        <p class="event-time-text">10:00 - 10:00 WIB</p>
+                        <p class="event-time-text">08:00 - 10:00 WIB</p>
 
                         <h3 class="section-title">Resepsi</h3>
                         <p class="event-date">Sabtu 17 Januari 2026</p>
