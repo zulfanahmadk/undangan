@@ -437,8 +437,12 @@ function initCoupleVideoPlayback() {
                 requestOrientationLandscape();
                 coupleVideo.play().catch(err => console.log('Play after fullscreen failed:', err));
             }).catch(err => {
-                console.error('Fullscreen request failed:', err);
+                console.warn('Fullscreen request blocked by permissions policy or browser:', err.message);
+                coupleVideo.play().catch(playErr => console.log('Play failed:', playErr));
             });
+        } else {
+            console.warn('Fullscreen API not supported in this browser');
+            coupleVideo.play().catch(err => console.log('Play failed:', err));
         }
     }
 

@@ -56,7 +56,7 @@
 
                     <div class="right-section couple-photos-section">
                         <div class="couple-photo-wrapper">
-                            <video controls preload="metadata" class="couple-photo" id="coupleVideo">
+                            <video controls preload="metadata" class="couple-photo" id="coupleVideo" allowfullscreen>
                                 <source src="{{ asset('img/intro2.mp4') }}" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
