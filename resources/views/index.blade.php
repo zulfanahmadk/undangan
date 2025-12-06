@@ -40,7 +40,7 @@
                     <div class="left-title">The Wedding Of</div>
                     <div class="left-subtitle">Pipit & Pael</div>
                     <div class="left-text">
-                        <p style="margin-top: 20px; font-size: 12px;">Sabtu, 17 Januari 2026<br>Garut</p>
+                        <p style="margin-top: 20px; font-size: 16px;">Sabtu, 17 Januari 2026<br>Garut</p>
                     </div>
                 </div>
             </div>
@@ -130,15 +130,18 @@
                     <div class="right-section gallery-section">
                         <h3 class="section-title">Gallery</h3>
                         <div class="gallery-grid">
-                            <img src="{{ asset('img/galeri/DSC_1154.jpg') }}" alt="Gallery" class="gallery-img">
-                            <img src="{{ asset('img/galeri/DSC_1195.jpg') }}" alt="Gallery" class="gallery-img">
-                            <img src="{{ asset('img/galeri/DSC_1320.jpg') }}" alt="Gallery" class="gallery-img">
-                            <img src="{{ asset('img/galeri/DSC_1354.jpg') }}" alt="Gallery" class="gallery-img">
-                            <img src="{{ asset('img/galeri/DSC_1427.jpg') }}" alt="Gallery" class="gallery-img">
-                            <img src="{{ asset('img/galeri/DSC_1493.jpg') }}" alt="Gallery" class="gallery-img">
-                            <img src="{{ asset('img/galeri/DSC_1557.jpg') }}" alt="Gallery" class="gallery-img">
-                            <img src="{{ asset('img/galeri/DSC_1614.jpg') }}" alt="Gallery" class="gallery-img">
-                            <img src="{{ asset('img/galeri/DSC_1689.jpg') }}" alt="Gallery" class="gallery-img">
+                            <img src="{{ asset('img/galeri/DSC_1224.jpg') }}" alt="Gallery" class="gallery-img">
+                            <img src="{{ asset('img/galeri/DSC_1271.jpg') }}" alt="Gallery" class="gallery-img">
+                            <img src="{{ asset('img/galeri/DSC_1384.jpg') }}" alt="Gallery" class="gallery-img">
+                            <img src="{{ asset('img/galeri/DSC_1545.jpg') }}" alt="Gallery" class="gallery-img">
+                            <img src="{{ asset('img/galeri/DSC_1888.jpg') }}" alt="Gallery" class="gallery-img">
+                            <img src="{{ asset('img/galeri/DSC_1764.jpg') }}" alt="Gallery" class="gallery-img">
+                            <img src="{{ asset('img/galeri/DSC_2017.jpg') }}" alt="Gallery" class="gallery-img">
+                            <img src="{{ asset('img/galeri/DSC_2245.jpg') }}" alt="Gallery" class="gallery-img">
+                            <img src="{{ asset('img/galeri/DSC_2316.jpg') }}" alt="Gallery" class="gallery-img">
+                            <img src="{{ asset('img/galeri/DSC_2560.jpg') }}" alt="Gallery" class="gallery-img">
+                            <img src="{{ asset('img/galeri/DSC_2498.jpg') }}" alt="Gallery" class="gallery-img">
+                            <img src="{{ asset('img/galeri/DSC_2526.jpg') }}" alt="Gallery" class="gallery-img">
                         </div>
                     </div>
 
@@ -189,10 +192,6 @@
                     <div style="height: 40px;"></div>
                 </div>
             </div>
-
-            <script>
-                console.log('Page loaded - checking for custom.js');
-            </script>
 </body>
 
 </html>
