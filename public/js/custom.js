@@ -276,14 +276,11 @@ function initGiftModal() {
 // ==================== 6. GALLERY LIGHTBOX ====================
 function initGalleryLightbox() {
     const galleryImages = document.querySelectorAll('.gallery-img');
-    const couplePhoto = document.querySelector('.couple-photo');
-    
-    // Collect all valid image sources
-    const images = [];
-    if (couplePhoto) images.push(couplePhoto.src);
-    galleryImages.forEach(img => images.push(img.src));
 
-    if (images.length === 0) return;
+    if (galleryImages.length === 0) return;
+
+    // Collect all valid image sources from gallery images only
+    const images = Array.from(galleryImages).map(img => img.src);
 
     // Check if lightbox already exists
     if (!document.getElementById('galleryLightbox')) {
@@ -309,6 +306,12 @@ function initGalleryLightbox() {
     const currentImageSpan = document.getElementById('currentImage');
     let currentIndex = 0;
 
+    // Swipe gesture variables
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let isSwiping = false;
+    const swipeThreshold = 50; // Minimum swipe distance in pixels
+
     if (totalImagesSpan) totalImagesSpan.textContent = images.length;
 
     function openLightbox(index) {
@@ -321,40 +324,95 @@ function initGalleryLightbox() {
     function updateLightboxImage() {
         if (currentIndex < 0) currentIndex = images.length - 1;
         if (currentIndex >= images.length) currentIndex = 0;
-        
+
         lightboxImage.src = images[currentIndex];
         if (currentImageSpan) currentImageSpan.textContent = currentIndex + 1;
     }
 
-    // Attach click events
-    if (couplePhoto) {
-        couplePhoto.style.cursor = 'pointer';
-        couplePhoto.addEventListener('click', () => openLightbox(0));
+    function handleSwipe(direction) {
+        if (direction === 'left') {
+            currentIndex++;
+        } else if (direction === 'right') {
+            currentIndex--;
+        }
+        updateLightboxImage();
     }
 
-    galleryImages.forEach((img) => {
+    // Attach click events to gallery images
+    galleryImages.forEach((img, index) => {
         img.style.cursor = 'pointer';
-        img.addEventListener('click', () => {
-            const idx = images.indexOf(img.src);
-            if (idx !== -1) openLightbox(idx);
+        img.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            openLightbox(index);
         });
     });
 
+    // Touch swipe handlers
+    lightbox.addEventListener('touchstart', (e) => {
+        if (e.target.closest('.lightbox-close, .lightbox-prev, .lightbox-next')) {
+            return;
+        }
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        isSwiping = true;
+    }, false);
+
+    lightbox.addEventListener('touchmove', (e) => {
+        if (!isSwiping) return;
+        // Allow default scrolling if not enough horizontal movement
+    }, false);
+
+    lightbox.addEventListener('touchend', (e) => {
+        if (!isSwiping) return;
+        isSwiping = false;
+
+        const touchEndX = e.changedTouches[0].clientX;
+        const touchEndY = e.changedTouches[0].clientY;
+
+        const distanceX = touchStartX - touchEndX;
+        const distanceY = touchStartY - touchEndY;
+
+        // Check if movement is more horizontal than vertical (swipe, not scroll)
+        if (Math.abs(distanceX) > Math.abs(distanceY) && Math.abs(distanceX) > swipeThreshold) {
+            if (distanceX > 0) {
+                // Swiped left - show next image
+                handleSwipe('left');
+            } else {
+                // Swiped right - show previous image
+                handleSwipe('right');
+            }
+        }
+    }, false);
+
     // Controls
-    document.getElementById('lightboxClose')?.addEventListener('click', () => {
-        lightbox.classList.remove('active');
-        document.body.style.overflow = '';
-    });
+    const lightboxClose = document.getElementById('lightboxClose');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
 
-    document.getElementById('lightboxPrev')?.addEventListener('click', () => {
-        currentIndex--;
-        updateLightboxImage();
-    });
+    if (lightboxClose) {
+        lightboxClose.addEventListener('click', (e) => {
+            e.stopPropagation();
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    }
 
-    document.getElementById('lightboxNext')?.addEventListener('click', () => {
-        currentIndex++;
-        updateLightboxImage();
-    });
+    if (lightboxPrev) {
+        lightboxPrev.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentIndex--;
+            updateLightboxImage();
+        });
+    }
+
+    if (lightboxNext) {
+        lightboxNext.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentIndex++;
+            updateLightboxImage();
+        });
+    }
 
     lightbox.addEventListener('click', (e) => {
         if (e.target === lightbox) {
@@ -373,22 +431,83 @@ function initCoupleVideoPlayback() {
 
     coupleVideo.style.cursor = 'pointer';
 
-    // Helper to handle background audio
-    function pauseBg() { if (bgVideo) bgVideo.pause(); }
-    function playBg() { if (bgVideo) bgVideo.play().catch(() => {}); }
+    // Function to capture video frame and set as poster
+    function captureVideoFrame() {
+        try {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
 
-    coupleVideo.addEventListener('play', pauseBg);
-    coupleVideo.addEventListener('pause', () => setTimeout(playBg, 100));
-    coupleVideo.addEventListener('ended', () => setTimeout(playBg, 100));
+            if (!coupleVideo.videoWidth || !coupleVideo.videoHeight) {
+                return;
+            }
+
+            canvas.width = coupleVideo.videoWidth;
+            canvas.height = coupleVideo.videoHeight;
+            ctx.drawImage(coupleVideo, 0, 0);
+            coupleVideo.poster = canvas.toDataURL('image/jpeg', 0.9);
+        } catch (err) {
+            console.log('Could not capture video frame:', err);
+        }
+    }
+
+    // Capture first frame when metadata loads
+    const metadataHandler = function() {
+        try {
+            coupleVideo.currentTime = 0.1; // Set to near start
+        } catch (err) {
+            console.log('Could not set video time:', err);
+        }
+    };
+
+    coupleVideo.addEventListener('loadedmetadata', metadataHandler);
+
+    // Capture frame after seeking
+    const seekedHandler = function() {
+        captureVideoFrame();
+        coupleVideo.removeEventListener('seeked', seekedHandler);
+    };
+
+    coupleVideo.addEventListener('seeked', seekedHandler);
+
+    // Update poster when video is paused (non-fullscreen)
+    coupleVideo.addEventListener('pause', function() {
+        // Check if not in fullscreen
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+            captureVideoFrame();
+        }
+        // Resume background video
+        if (bgVideo) {
+            bgVideo.play().catch(() => {});
+        }
+    });
+
+    // Pause background video when playing
+    coupleVideo.addEventListener('play', function() {
+        if (bgVideo) {
+            bgVideo.pause();
+        }
+    });
+
+    // Resume background video when video ends
+    coupleVideo.addEventListener('ended', function() {
+        if (bgVideo) {
+            bgVideo.play().catch(() => {});
+        }
+    });
 
     // Fullscreen handling
     coupleVideo.addEventListener('click', function() {
-        if (coupleVideo.requestFullscreen) {
-            coupleVideo.requestFullscreen();
-        } else if (coupleVideo.webkitRequestFullscreen) {
-            coupleVideo.webkitRequestFullscreen(); // Safari
+        try {
+            if (coupleVideo.requestFullscreen) {
+                coupleVideo.requestFullscreen();
+            } else if (coupleVideo.webkitRequestFullscreen) {
+                coupleVideo.webkitRequestFullscreen(); // Safari
+            }
+            coupleVideo.play();
+        } catch (err) {
+            console.log('Fullscreen or play error:', err);
+            coupleVideo.play();
         }
-        coupleVideo.play();
     });
 }
 

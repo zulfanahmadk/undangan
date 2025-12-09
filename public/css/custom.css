@@ -1351,11 +1351,11 @@ body {
     .panel-right {
         display: block;
         width: 100%;
-        height: auto;
-        min-height: 100vh;
+        height: 100vh;
+        position: relative;
+        overflow: hidden;
         flex: 1;
         margin-top: 0;
-        overflow-y: auto;
     }
 
     .panel-scroll-container {
@@ -1369,7 +1369,7 @@ body {
     }
 
     .panel-video-bg {
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         width: 100%;
@@ -1575,8 +1575,14 @@ body {
         height: 100vh;
     }
 
+    .panel-right {
+        height: 100vh;
+        position: relative;
+        overflow: hidden;
+    }
+
     .panel-video-bg {
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         width: 100%;

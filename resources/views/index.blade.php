@@ -138,18 +138,18 @@
                     <div class="right-section gallery-section">
                         <h3 class="section-title">Gallery</h3>
                         <div class="gallery-grid">
-                            <img src="{{ asset('img/galeri/DSC_1224.jpg') }}" alt="Gallery" class="gallery-img1">
-                            <img src="{{ asset('img/galeri/DSC_1271.jpg') }}" alt="Gallery" class="gallery-img2">
-                            <img src="{{ asset('img/galeri/DSC_1384.jpg') }}" alt="Gallery" class="gallery-img3">
-                            <img src="{{ asset('img/galeri/DSC_1545.jpg') }}" alt="Gallery" class="gallery-img4">
-                            <img src="{{ asset('img/galeri/DSC_1888.jpg') }}" alt="Gallery" class="gallery-img5">
-                            <img src="{{ asset('img/galeri/DSC_1764.jpg') }}" alt="Gallery" class="gallery-img6">
-                            <img src="{{ asset('img/galeri/DSC_2017.jpg') }}" alt="Gallery" class="gallery-img7">
-                            <img src="{{ asset('img/galeri/DSC_2245.jpg') }}" alt="Gallery" class="gallery-img8">
-                            <img src="{{ asset('img/galeri/DSC_2316.jpg') }}" alt="Gallery" class="gallery-img9">
-                            <img src="{{ asset('img/galeri/DSC_2560.jpg') }}" alt="Gallery" class="gallery-img10">
-                            <img src="{{ asset('img/galeri/DSC_2498.jpg') }}" alt="Gallery" class="gallery-img11">
-                            <img src="{{ asset('img/galeri/DSC_2526.jpg') }}" alt="Gallery" class="gallery-img12">
+                            <img src="{{ asset('img/galeri/DSC_1224.jpg') }}" alt="Gallery" class="gallery-img gallery-img1">
+                            <img src="{{ asset('img/galeri/DSC_1271.jpg') }}" alt="Gallery" class="gallery-img gallery-img2">
+                            <img src="{{ asset('img/galeri/DSC_1384.jpg') }}" alt="Gallery" class="gallery-img gallery-img3">
+                            <img src="{{ asset('img/galeri/DSC_1545.jpg') }}" alt="Gallery" class="gallery-img gallery-img4">
+                            <img src="{{ asset('img/galeri/DSC_1888.jpg') }}" alt="Gallery" class="gallery-img gallery-img5">
+                            <img src="{{ asset('img/galeri/DSC_1764.jpg') }}" alt="Gallery" class="gallery-img gallery-img6">
+                            <img src="{{ asset('img/galeri/DSC_2017.jpg') }}" alt="Gallery" class="gallery-img gallery-img7">
+                            <img src="{{ asset('img/galeri/DSC_2245.jpg') }}" alt="Gallery" class="gallery-img gallery-img8">
+                            <img src="{{ asset('img/galeri/DSC_2316.jpg') }}" alt="Gallery" class="gallery-img gallery-img9">
+                            <img src="{{ asset('img/galeri/DSC_2560.jpg') }}" alt="Gallery" class="gallery-img gallery-img10">
+                            <img src="{{ asset('img/galeri/DSC_2498.jpg') }}" alt="Gallery" class="gallery-img gallery-img11">
+                            <img src="{{ asset('img/galeri/DSC_2526.jpg') }}" alt="Gallery" class="gallery-img gallery-img12">
                         </div>
                     </div>
 
