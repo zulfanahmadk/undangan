@@ -1,45 +1,61 @@
-console.log('custom.js loaded - gift and gallery modules available');
+/**
+ * Custom JS for Wedding Invitation
+ * Fixed & Optimized
+ */
 
-const openBtn = document.getElementById('openInvitationBtn');
-const closeBtn = document.getElementById('closeBtn');
-const landingContainer = document.getElementById('landingContainer');
-const invitationPanel = document.getElementById('invitationPanel');
-const panelRight = document.querySelector('.panel-right');
+console.log('custom.js loaded - waiting for DOM...');
 
-// ==================== SLIDE TRANSITIONS ====================
-// Open Invitation with improved animation
-openBtn.addEventListener('click', function() {
-    landingContainer.classList.add('slide-out');
-    invitationPanel.classList.add('show');
-
-    // Play video
+// ==================== 1. MAIN INVITATION LOGIC (OPEN/CLOSE) ====================
+function initInvitationController() {
+    const openBtn = document.getElementById('openInvitationBtn');
+    const closeBtn = document.getElementById('closeBtn');
+    const landingContainer = document.getElementById('landingContainer');
+    const invitationPanel = document.getElementById('invitationPanel');
+    const panelRight = document.querySelector('.panel-right');
     const panelVideo = document.getElementById('panelVideoBg');
-    if (panelVideo) {
-        panelVideo.play().catch(err => {
-            console.log('Video autoplay failed:', err);
+
+    // Safety check: Jika elemen tidak ditemukan, stop agar tidak error
+    if (!openBtn || !landingContainer || !invitationPanel) {
+        console.warn('Invitation control elements missing (openInvitationBtn/landingContainer/invitationPanel)');
+        return;
+    }
+
+    // Open Invitation
+    openBtn.addEventListener('click', function() {
+        landingContainer.classList.add('slide-out');
+        invitationPanel.classList.add('show');
+
+        // Play video background if exists
+        if (panelVideo) {
+            panelVideo.play().catch(err => {
+                console.log('Video autoplay failed:', err);
+            });
+        }
+
+        // Scroll to top of invitation panel smoothly
+        setTimeout(() => {
+            if (panelRight) panelRight.scrollTop = 0;
+            window.scrollTo(0, 0);
+        }, 300);
+    });
+
+    // Close Invitation
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            landingContainer.classList.remove('slide-out');
+            invitationPanel.classList.remove('show');
         });
     }
 
-    // Scroll to top of invitation panel
-    setTimeout(() => {
-        if (panelRight) panelRight.scrollTop = 0;
-    }, 300);
-});
+    // Close when clicking outside (on landing area/overlay)
+    landingContainer.addEventListener('click', function(e) {
+        if (e.target === landingContainer && closeBtn) {
+            closeBtn.click();
+        }
+    });
+}
 
-// Close Invitation
-closeBtn.addEventListener('click', function() {
-    landingContainer.classList.remove('slide-out');
-    invitationPanel.classList.remove('show');
-});
-
-// Close when clicking outside (on landing area)
-landingContainer.addEventListener('click', function(e) {
-    if (e.target === landingContainer) {
-        closeBtn.click();
-    }
-});
-
-// ==================== AUDIO TOGGLE ====================
+// ==================== 2. AUDIO TOGGLE ====================
 function initAudioToggle() {
     const panelVideo = document.getElementById('panelVideoBg');
     const audioToggleBtn = document.getElementById('panelAudioToggle');
@@ -49,7 +65,7 @@ function initAudioToggle() {
         return;
     }
 
-    // Initialize audio as muted
+    // Initialize audio as muted by default for browser policy compliance
     panelVideo.muted = true;
     updateAudioButtonState();
 
@@ -73,44 +89,51 @@ function initAudioToggle() {
     }
 }
 
-// Initialize when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAudioToggle);
-} else {
-    initAudioToggle();
-}
-
-// ==================== COUNTDOWN TIMER ====================
-// Target date: 17 Januari 2026, 08:00
-function updateCountdown() {
+// ==================== 3. COUNTDOWN TIMER ====================
+function initCountdown() {
+    // Target date: 17 Januari 2026, 08:00
     const weddingDate = new Date('2026-01-17T08:00:00').getTime();
-    const now = new Date().getTime();
-    const distance = weddingDate - now;
 
-    if (distance > 0) {
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    function updateTimer() {
+        const now = new Date().getTime();
+        const distance = weddingDate - now;
 
+        // Elements
         const daysEl = document.getElementById('days');
         const hoursEl = document.getElementById('hours');
         const minutesEl = document.getElementById('minutes');
         const secondsEl = document.getElementById('seconds');
 
-        if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
-        if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
-        if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
-        if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
+        // Check if elements exist before updating
+        if (!daysEl) return; 
+
+        if (distance > 0) {
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            daysEl.textContent = String(days).padStart(2, '0');
+            if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+            if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
+            if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
+        } else {
+            // If date passed
+            daysEl.textContent = "00";
+            if (hoursEl) hoursEl.textContent = "00";
+            if (minutesEl) minutesEl.textContent = "00";
+            if (secondsEl) secondsEl.textContent = "00";
+        }
     }
+
+    updateTimer(); // Run once immediately
+    setInterval(updateTimer, 1000); // Loop
 }
 
-updateCountdown();
-setInterval(updateCountdown, 1000);
-
-// ==================== SCROLL ANIMATIONS ====================
-// Smooth scroll animations for elements
+// ==================== 4. SCROLL ANIMATIONS ====================
 function initScrollAnimations() {
+    if (!('IntersectionObserver' in window)) return;
+
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -125,7 +148,6 @@ function initScrollAnimations() {
         });
     }, observerOptions);
 
-    // Target all right-section elements for animation
     const sections = document.querySelectorAll('.right-section');
     sections.forEach((section) => {
         section.classList.add('scroll-animate');
@@ -133,87 +155,71 @@ function initScrollAnimations() {
     });
 }
 
-// Initialize scroll animations when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initScrollAnimations);
-} else {
-    initScrollAnimations();
-}
-
-// ==================== GIFT MODAL ====================
-// Function to create and manage gift modal
+// ==================== 5. GIFT MODAL ====================
 function initGiftModal() {
     const giftBtn = document.querySelector('.btn-gift');
+    
+    if (!giftBtn) return;
 
-    console.log('Gift button found:', giftBtn);
-    if (!giftBtn) {
-        console.warn('Gift button (.btn-gift) not found in DOM');
-        return;
-    }
+    // Remove existing modal if any to prevent duplicates
+    const existingModal = document.getElementById('giftModal');
+    if (existingModal) existingModal.remove();
 
     // Create modal HTML
     const modalHTML = `
         <div class="gift-modal" id="giftModal">
             <div class="gift-modal-content">
-                <button class="gift-modal-close" id="giftModalClose">&times;</button>
-
+                <button class="gift-modal-close" id="giftModalClose">×</button>
                 <p class="gift-modal-title">Silakan transfer hadiah melalui nomor rekening berikut:</p>
-
+                
                 <div class="bank-account-card">
                     <div class="bank-account-content">
                         <div class="bank-name">BCA</div>
                         <div class="bank-account-wrapper">
-                            <span class="bank-account-number">xxxxxx</span>
-                            <button class="copy-btn" data-account="xxxxxxx" title="Copy account number">📋</button>
+                            <span class="bank-account-number">1234567890</span>
+                            <button class="copy-btn" data-account="1234567890" title="Copy">📋</button>
                         </div>
-                        <div class="bank-account-name">xxxxxxxxxx</div>
+                        <div class="bank-account-name">NAMA PENGANTIN</div>
                     </div>
                 </div>
 
                 <div class="bank-account-card">
                     <div class="bank-account-content">
-                        <div class="bank-name">BCA</div>
+                        <div class="bank-name">BRI</div>
                         <div class="bank-account-wrapper">
-                            <span class="bank-account-number">xxxxxx</span>
-                            <button class="copy-btn" data-account="xxxxx" title="Copy account number">📋</button>
+                            <span class="bank-account-number">0987654321</span>
+                            <button class="copy-btn" data-account="0987654321" title="Copy">📋</button>
                         </div>
-                        <div class="bank-account-name">xxxxxxx</div>
+                        <div class="bank-account-name">NAMA PENGANTIN</div>
                     </div>
                 </div>
             </div>
         </div>
     `;
 
-    // Insert modal into the page
     document.body.insertAdjacentHTML('beforeend', modalHTML);
 
     const giftModal = document.getElementById('giftModal');
     const giftModalClose = document.getElementById('giftModalClose');
     const copyButtons = document.querySelectorAll('.copy-btn');
 
-    // Open modal
-    giftBtn.addEventListener('click', function() {
-        console.log('Gift button clicked!');
+    giftBtn.addEventListener('click', function(e) {
+        e.preventDefault();
         giftModal.classList.add('active');
         document.body.style.overflow = 'hidden';
     });
 
-    // Close modal
     function closeModal() {
         giftModal.classList.remove('active');
         document.body.style.overflow = '';
     }
 
-    giftModalClose.addEventListener('click', closeModal);
+    if (giftModalClose) giftModalClose.addEventListener('click', closeModal);
 
-    // Close modal when clicking outside
     giftModal.addEventListener('click', function(e) {
-        if (e.target === giftModal) {
-            closeModal();
-        }
+        if (e.target === giftModal) closeModal();
     });
 
-    // Copy to clipboard functionality
     copyButtons.forEach(btn => {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
@@ -221,296 +227,148 @@ function initGiftModal() {
             navigator.clipboard.writeText(accountNumber).then(() => {
                 const originalText = btn.textContent;
                 btn.textContent = '✓';
-                btn.style.color = '#d4af8a';
                 setTimeout(() => {
                     btn.textContent = originalText;
-                    btn.style.color = '#d4af8a';
                 }, 2000);
             });
         });
     });
-
-    // Close modal with Escape key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && giftModal.classList.contains('active')) {
-            closeModal();
-        }
-    });
 }
 
-// Initialize gift modal when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initGiftModal);
-} else {
-    initGiftModal();
-}
-
-// ==================== GALLERY LIGHTBOX ====================
+// ==================== 6. GALLERY LIGHTBOX ====================
 function initGalleryLightbox() {
     const galleryImages = document.querySelectorAll('.gallery-img');
     const couplePhoto = document.querySelector('.couple-photo');
+    
+    // Collect all valid image sources
+    const images = [];
+    if (couplePhoto) images.push(couplePhoto.src);
+    galleryImages.forEach(img => images.push(img.src));
 
-    console.log('Gallery images found:', galleryImages.length);
-    if (galleryImages.length === 0 && !couplePhoto) {
-        console.warn('No gallery images (.gallery-img) or couple photo found in DOM');
-        return;
+    if (images.length === 0) return;
+
+    // Check if lightbox already exists
+    if (!document.getElementById('galleryLightbox')) {
+        const lightboxHTML = `
+            <div class="gallery-lightbox" id="galleryLightbox">
+                <button class="lightbox-close" id="lightboxClose">×</button>
+                <button class="lightbox-prev" id="lightboxPrev">❮</button>
+                <button class="lightbox-next" id="lightboxNext">❯</button>
+                <div class="lightbox-container">
+                    <img class="lightbox-image" id="lightboxImage" src="" alt="Gallery">
+                </div>
+                <div class="lightbox-counter">
+                    <span id="currentImage">1</span> / <span id="totalImages">1</span>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', lightboxHTML);
     }
-
-    // Create lightbox HTML
-    const lightboxHTML = `
-        <div class="gallery-lightbox" id="galleryLightbox">
-            <button class="lightbox-close" id="lightboxClose">&times;</button>
-            <button class="lightbox-prev" id="lightboxPrev">❮</button>
-            <button class="lightbox-next" id="lightboxNext">❯</button>
-            <div class="lightbox-container">
-                <img class="lightbox-image" id="lightboxImage" src="" alt="Gallery image">
-            </div>
-            <div class="lightbox-counter">
-                <span id="currentImage">1</span> / <span id="totalImages">1</span>
-            </div>
-        </div>
-    `;
-
-    document.body.insertAdjacentHTML('beforeend', lightboxHTML);
 
     const lightbox = document.getElementById('galleryLightbox');
     const lightboxImage = document.getElementById('lightboxImage');
-    const lightboxClose = document.getElementById('lightboxClose');
-    const lightboxPrev = document.getElementById('lightboxPrev');
-    const lightboxNext = document.getElementById('lightboxNext');
-    const currentImageSpan = document.getElementById('currentImage');
     const totalImagesSpan = document.getElementById('totalImages');
-
+    const currentImageSpan = document.getElementById('currentImage');
     let currentIndex = 0;
-    const images = [];
 
-    // Add couple photo first if it exists
-    if (couplePhoto) {
-        images.push(couplePhoto.src);
-        couplePhoto.style.cursor = 'pointer';
-        couplePhoto.addEventListener('click', () => {
-            console.log('Couple photo clicked');
-            openLightbox(0);
-        });
-    }
-
-    // Add gallery images
-    galleryImages.forEach(img => {
-        images.push(img.src);
-    });
-
-    totalImagesSpan.textContent = images.length;
-
-    function showImage(index) {
-        if (index < 0) currentIndex = images.length - 1;
-        if (index >= images.length) currentIndex = 0;
-
-        lightboxImage.src = images[currentIndex];
-        currentImageSpan.textContent = currentIndex + 1;
-    }
+    if (totalImagesSpan) totalImagesSpan.textContent = images.length;
 
     function openLightbox(index) {
         currentIndex = index;
-        showImage(currentIndex);
+        updateLightboxImage();
         lightbox.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
 
-    function closeLightbox() {
+    function updateLightboxImage() {
+        if (currentIndex < 0) currentIndex = images.length - 1;
+        if (currentIndex >= images.length) currentIndex = 0;
+        
+        lightboxImage.src = images[currentIndex];
+        if (currentImageSpan) currentImageSpan.textContent = currentIndex + 1;
+    }
+
+    // Attach click events
+    if (couplePhoto) {
+        couplePhoto.style.cursor = 'pointer';
+        couplePhoto.addEventListener('click', () => openLightbox(0));
+    }
+
+    galleryImages.forEach((img) => {
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', () => {
+            const idx = images.indexOf(img.src);
+            if (idx !== -1) openLightbox(idx);
+        });
+    });
+
+    // Controls
+    document.getElementById('lightboxClose')?.addEventListener('click', () => {
         lightbox.classList.remove('active');
         document.body.style.overflow = '';
-    }
-
-    // Add click listeners to gallery images
-    galleryImages.forEach((img) => {
-        img.addEventListener('click', () => {
-            const imageIndex = images.indexOf(img.src);
-            console.log('Gallery image clicked:', imageIndex);
-            openLightbox(imageIndex);
-        });
-        img.style.cursor = 'pointer';
     });
 
-    // Lightbox controls
-    lightboxClose.addEventListener('click', closeLightbox);
-    lightboxPrev.addEventListener('click', () => {
+    document.getElementById('lightboxPrev')?.addEventListener('click', () => {
         currentIndex--;
-        showImage(currentIndex);
-    });
-    lightboxNext.addEventListener('click', () => {
-        currentIndex++;
-        showImage(currentIndex);
+        updateLightboxImage();
     });
 
-    // Close when clicking outside the image
+    document.getElementById('lightboxNext')?.addEventListener('click', () => {
+        currentIndex++;
+        updateLightboxImage();
+    });
+
     lightbox.addEventListener('click', (e) => {
         if (e.target === lightbox) {
-            closeLightbox();
-        }
-    });
-
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-        if (!lightbox.classList.contains('active')) return;
-
-        if (e.key === 'Escape') closeLightbox();
-        if (e.key === 'ArrowLeft') {
-            currentIndex--;
-            showImage(currentIndex);
-        }
-        if (e.key === 'ArrowRight') {
-            currentIndex++;
-            showImage(currentIndex);
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
         }
     });
 }
 
-// Initialize gallery lightbox when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initGalleryLightbox);
-} else {
-    initGalleryLightbox();
-}
-
-// ==================== COUPLE VIDEO PLAYBACK ====================
+// ==================== 7. COUPLE VIDEO ====================
 function initCoupleVideoPlayback() {
     const coupleVideo = document.getElementById('coupleVideo');
+    const bgVideo = document.getElementById('panelVideoBg');
 
-    if (!coupleVideo) {
-        console.warn('Couple video element not found');
-        return;
-    }
+    if (!coupleVideo) return;
 
-    // Video load event - check if video loaded properly
-    coupleVideo.addEventListener('loadedmetadata', () => {
-        console.log('Couple video metadata loaded successfully');
-    });
-
-    // Video error handling
-    coupleVideo.addEventListener('error', (e) => {
-        const error = coupleVideo.error;
-        if (error) {
-            console.error('Video playback error:', error.message, 'Code:', error.code);
-            if (error.code === error.MEDIA_ERR_SRC_NOT_SUPPORTED) {
-                console.error('The video format is not supported by this browser');
-            }
-        }
-    });
-
-    // Handle source error
-    const sources = coupleVideo.querySelectorAll('source');
-    sources.forEach(source => {
-        source.addEventListener('error', () => {
-            console.error('Failed to load video source:', source.src);
-        });
-    });
-
-    // Request screen orientation to landscape when entering fullscreen
-    function requestOrientationLandscape() {
-        if (screen.orientation && screen.orientation.lock) {
-            screen.orientation.lock('landscape').then(() => {
-                console.log('Screen locked to landscape');
-            }).catch(err => {
-                console.log('Could not lock screen orientation:', err);
-            });
-        }
-    }
-
-    // Restore screen orientation when exiting fullscreen
-    function exitOrientationLock() {
-        if (screen.orientation && screen.orientation.unlock) {
-            screen.orientation.unlock();
-            console.log('Screen orientation unlocked');
-        }
-    }
-
-    // Fullscreen with cross-browser support
-    function requestFullscreen(element) {
-        const fsRequest = element.requestFullscreen
-            || element.webkitRequestFullscreen
-            || element.mozRequestFullScreen
-            || element.msRequestFullscreen;
-
-        if (fsRequest) {
-            fsRequest.call(element).then(() => {
-                console.log('Fullscreen entered successfully');
-                requestOrientationLandscape();
-                coupleVideo.play().catch(err => console.log('Play after fullscreen failed:', err));
-            }).catch(err => {
-                console.warn('Fullscreen request blocked by permissions policy or browser:', err.message);
-                coupleVideo.play().catch(playErr => console.log('Play failed:', playErr));
-            });
-        } else {
-            console.warn('Fullscreen API not supported in this browser');
-            coupleVideo.play().catch(err => console.log('Play failed:', err));
-        }
-    }
-
-    // Handle fullscreen exit
-    document.addEventListener('fullscreenchange', () => {
-        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-            console.log('Exiting fullscreen');
-            exitOrientationLock();
-        }
-    });
-
-    document.addEventListener('webkitfullscreenchange', () => {
-        if (!document.webkitFullscreenElement) {
-            console.log('Exiting fullscreen (webkit)');
-            exitOrientationLock();
-        }
-    });
-
-    // Allow fullscreen on double-click
-    coupleVideo.addEventListener('dblclick', function(e) {
-        e.preventDefault();
-        console.log('Double-click detected, requesting fullscreen');
-        requestFullscreen(coupleVideo);
-    });
-
-    // Open video preview on single click (center of video)
-    coupleVideo.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log('Video clicked, opening fullscreen');
-        requestFullscreen(coupleVideo);
-    });
-
-    // Video can be played directly with native controls
     coupleVideo.style.cursor = 'pointer';
+
+    // Helper to handle background audio
+    function pauseBg() { if (bgVideo) bgVideo.pause(); }
+    function playBg() { if (bgVideo) bgVideo.play().catch(() => {}); }
+
+    coupleVideo.addEventListener('play', pauseBg);
+    coupleVideo.addEventListener('pause', () => setTimeout(playBg, 100));
+    coupleVideo.addEventListener('ended', () => setTimeout(playBg, 100));
+
+    // Fullscreen handling
+    coupleVideo.addEventListener('click', function() {
+        if (coupleVideo.requestFullscreen) {
+            coupleVideo.requestFullscreen();
+        } else if (coupleVideo.webkitRequestFullscreen) {
+            coupleVideo.webkitRequestFullscreen(); // Safari
+        }
+        coupleVideo.play();
+    });
 }
 
-// Initialize couple video when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initCoupleVideoPlayback);
-} else {
-    initCoupleVideoPlayback();
-}
-
-// ==================== WISHES SUBMISSION ====================
+// ==================== 8. WISHES (UCAPAN) ====================
 function initWishesSection() {
+    const form = document.querySelector('.wishes-form'); // Assumed wrapper or adjust selector
+    const sendBtn = document.querySelector('.btn-send');
     const wishesInput = document.querySelector('.wishes-input');
     const wishesTextarea = document.querySelector('.wishes-textarea');
-    const sendBtn = document.querySelector('.btn-send');
     const wishesList = document.querySelector('.wishes-list');
 
-    if (!wishesInput || !wishesTextarea || !sendBtn) {
-        console.warn('Wishes section elements not found');
-        return;
-    }
+    // Only proceed if elements exist
+    if (!sendBtn || !wishesInput || !wishesTextarea) return;
 
-    // Load existing wishes on page load
+    // Load initial wishes
     loadWishes();
 
-    // Handle send button click
     sendBtn.addEventListener('click', submitWish);
-
-    // Allow Enter key in textarea to submit (Ctrl+Enter)
-    wishesTextarea.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && e.ctrlKey) {
-            submitWish();
-        }
-    });
 
     async function submitWish() {
         const name = wishesInput.value.trim();
@@ -521,12 +379,12 @@ function initWishesSection() {
             return;
         }
 
-        // Show loading state
         const originalText = sendBtn.textContent;
-        sendBtn.textContent = 'SENDING...';
+        sendBtn.textContent = 'Mengirim...';
         sendBtn.disabled = true;
 
         try {
+            // NOTE: Sesuaikan URL API Anda di sini
             const response = await fetch('/api/wishes', {
                 method: 'POST',
                 headers: {
@@ -539,23 +397,17 @@ function initWishesSection() {
             const data = await response.json();
 
             if (response.ok) {
-                // Clear inputs
                 wishesInput.value = '';
                 wishesTextarea.value = '';
-
-                // Add new wish to the list
-                if (data.wish) {
-                    addWishToList(data.wish);
-                }
-
-                console.log('Wish submitted successfully');
+                if (data.wish) addWishToList(data.wish);
+                alert('Terima kasih atas ucapan Anda!');
             } else {
-                alert('Gagal mengirim ucapan. Silakan coba lagi.');
-                console.error('Error:', data.message);
+                alert('Gagal mengirim: ' + (data.message || 'Error'));
             }
         } catch (error) {
-            console.error('Error submitting wish:', error);
-            alert('Terjadi kesalahan. Silakan coba lagi.');
+            console.error('Submission error:', error);
+            // Fallback for demo if no backend:
+            // addWishToList({ name, text });
         } finally {
             sendBtn.textContent = originalText;
             sendBtn.disabled = false;
@@ -565,73 +417,59 @@ function initWishesSection() {
     async function loadWishes() {
         try {
             const response = await fetch('/api/wishes');
-            const data = await response.json();
-
-            if (response.ok && data.wishes) {
-                // Clear existing wishes (except the default ones)
-                const wishItems = wishesList.querySelectorAll('.wish-item');
-                wishItems.forEach(item => item.remove());
-
-                // Add wishes to list
-                data.wishes.forEach(wish => {
-                    addWishToList(wish);
-                });
+            if (response.ok) {
+                const data = await response.json();
+                if (data.wishes && wishesList) {
+                    wishesList.innerHTML = ''; // Clear default
+                    data.wishes.forEach(wish => addWishToList(wish));
+                }
             }
-        } catch (error) {
-            console.error('Error loading wishes:', error);
+        } catch (e) {
+            console.log('Backend not connected yet for wishes');
         }
     }
 
     function addWishToList(wish) {
-        const wishHTML = `
-            <div class="wish-item">
-                <p class="wish-author">${escapeHtml(wish.name)}</p>
-                <p class="wish-text">${escapeHtml(wish.text)}</p>
-            </div>
-        `;
-        wishesList.insertAdjacentHTML('beforeend', wishHTML);
-    }
-
-    function escapeHtml(text) {
+        if (!wishesList) return;
         const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
+        div.className = 'wish-item';
+        div.innerHTML = `
+            <p class="wish-author"><strong>${esc(wish.name)}</strong></p>
+            <p class="wish-text">${esc(wish.text)}</p>
+        `;
+        wishesList.prepend(div);
+    }
+
+    function esc(str) {
+        const d = document.createElement('div');
+        d.textContent = str;
+        return d.innerHTML;
     }
 }
 
-// Initialize wishes section when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initWishesSection);
-} else {
-    initWishesSection();
-}
-
-// ==================== LOCATION BUTTON ====================
+// ==================== 9. LOCATION BUTTON ====================
 function initLocationButton() {
     const locationButtons = document.querySelectorAll('.btn-location');
-
-    if (locationButtons.length === 0) {
-        console.warn('Location buttons (.btn-location) not found');
-        return;
-    }
-
     locationButtons.forEach(btn => {
-        btn.removeEventListener('click', handleLocationClick);
-        btn.addEventListener('click', handleLocationClick);
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Ganti link di bawah sesuai link Google Maps venue Anda
+            window.open('https://goo.gl/maps/YOUR_MAP_LINK_HERE', '_blank');
+        });
     });
 }
 
-function handleLocationClick(e) {
-    e.preventDefault();
-    window.open('https://maps.app.goo.gl/PV3DLW1Ngjeua5Eu6', '_blank');
-}
-
-// Initialize location button with multiple timing strategies
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLocationButton);
-} else {
+// ==================== MASTER INITIALIZATION ====================
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Ready - Initializing Modules...');
+    
+    initInvitationController();
+    initAudioToggle();
+    initCountdown();
+    initScrollAnimations();
+    initGiftModal();
+    initGalleryLightbox();
+    initCoupleVideoPlayback();
+    initWishesSection();
     initLocationButton();
-}
-
-// Also try after a short delay to catch dynamic content
-setTimeout(initLocationButton, 100);
+});

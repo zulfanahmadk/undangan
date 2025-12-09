@@ -5,13 +5,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Fitri & Syifa - Wedding Invitation</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Sacramento&family=Agbalumo&display=swap"
         rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
-    <script src="{{ asset('js/custom.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}?v=1.9">
+    <script src="{{ asset('js/custom.js') }}?v=1.4" defer></script>
 </head>
 
 <body>
@@ -31,23 +34,28 @@
         <div class="invitation-panel" id="invitationPanel">
 
             <!-- Left Side (Static) -->
-            <div class="panel-left">
+            <!--<div class="panel-left">-->
+            <!--    <button class="panel-audio-toggle" id="panelAudioToggle" title="Toggle Audio">-->
+            <!--        <span class="audio-icon">🔊</span>-->
+            <!--    </button>-->
+            <!--    <button class="close-btn" id="closeBtn">&times;</button>-->
+            <!--    <div class="panel-left-content">-->
+            <!--        <div class="left-title">The Wedding Of</div>-->
+            <!--        <div class="left-subtitle">Pipit & Pael</div>-->
+            <!--        <div class="left-text">-->
+            <!--            <p style="margin-top: 20px; font-size: 16px;">Sabtu, 17 Januari 2026<br>Garut</p>-->
+            <!--        </div>-->
+            <!--    </div>-->
+            <!--</div>-->
+
+            <!-- Right Side (Scrollable) -->
+            <div class="panel-right">
                 <button class="panel-audio-toggle" id="panelAudioToggle" title="Toggle Audio">
                     <span class="audio-icon">🔊</span>
                 </button>
                 <button class="close-btn" id="closeBtn">&times;</button>
-                <div class="panel-left-content">
-                    <div class="left-title">The Wedding Of</div>
-                    <div class="left-subtitle">Pipit & Pael</div>
-                    <div class="left-text">
-                        <p style="margin-top: 20px; font-size: 16px;">Sabtu, 17 Januari 2026<br>Garut</p>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Right Side (Scrollable) -->
-            <div class="panel-right">
-                <video autoplay muted loop id="panelVideoBg" class="panel-video-bg">
+                <video autoplay muted loop playsinline id="panelVideoBg" class="panel-video-bg">
                     <source src="{{ asset('img/intro.mp4') }}" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -130,28 +138,29 @@
                     <div class="right-section gallery-section">
                         <h3 class="section-title">Gallery</h3>
                         <div class="gallery-grid">
-                            <img src="{{ asset('img/galeri/DSC_1224.jpg') }}" alt="Gallery" class="gallery-img">
-                            <img src="{{ asset('img/galeri/DSC_1271.jpg') }}" alt="Gallery" class="gallery-img">
-                            <img src="{{ asset('img/galeri/DSC_1384.jpg') }}" alt="Gallery" class="gallery-img">
-                            <img src="{{ asset('img/galeri/DSC_1545.jpg') }}" alt="Gallery" class="gallery-img">
-                            <img src="{{ asset('img/galeri/DSC_1888.jpg') }}" alt="Gallery" class="gallery-img">
-                            <img src="{{ asset('img/galeri/DSC_1764.jpg') }}" alt="Gallery" class="gallery-img">
-                            <img src="{{ asset('img/galeri/DSC_2017.jpg') }}" alt="Gallery" class="gallery-img">
-                            <img src="{{ asset('img/galeri/DSC_2245.jpg') }}" alt="Gallery" class="gallery-img">
-                            <img src="{{ asset('img/galeri/DSC_2316.jpg') }}" alt="Gallery" class="gallery-img">
-                            <img src="{{ asset('img/galeri/DSC_2560.jpg') }}" alt="Gallery" class="gallery-img">
-                            <img src="{{ asset('img/galeri/DSC_2498.jpg') }}" alt="Gallery" class="gallery-img">
-                            <img src="{{ asset('img/galeri/DSC_2526.jpg') }}" alt="Gallery" class="gallery-img">
+                            <img src="{{ asset('img/galeri/DSC_1224.jpg') }}" alt="Gallery" class="gallery-img1">
+                            <img src="{{ asset('img/galeri/DSC_1271.jpg') }}" alt="Gallery" class="gallery-img2">
+                            <img src="{{ asset('img/galeri/DSC_1384.jpg') }}" alt="Gallery" class="gallery-img3">
+                            <img src="{{ asset('img/galeri/DSC_1545.jpg') }}" alt="Gallery" class="gallery-img4">
+                            <img src="{{ asset('img/galeri/DSC_1888.jpg') }}" alt="Gallery" class="gallery-img5">
+                            <img src="{{ asset('img/galeri/DSC_1764.jpg') }}" alt="Gallery" class="gallery-img6">
+                            <img src="{{ asset('img/galeri/DSC_2017.jpg') }}" alt="Gallery" class="gallery-img7">
+                            <img src="{{ asset('img/galeri/DSC_2245.jpg') }}" alt="Gallery" class="gallery-img8">
+                            <img src="{{ asset('img/galeri/DSC_2316.jpg') }}" alt="Gallery" class="gallery-img9">
+                            <img src="{{ asset('img/galeri/DSC_2560.jpg') }}" alt="Gallery" class="gallery-img10">
+                            <img src="{{ asset('img/galeri/DSC_2498.jpg') }}" alt="Gallery" class="gallery-img11">
+                            <img src="{{ asset('img/galeri/DSC_2526.jpg') }}" alt="Gallery" class="gallery-img12">
                         </div>
                     </div>
 
                     <div class="right-section story-section">
                         <h3 class="section-title">Kisah Cinta</h3>
                         <p class="story-text">
-                            Tidak ada yang kebetulan di dunia ini, kami bertemu pada tahun 2016 sebagai teman satu kelas di SMA.
-                            Awalnya kami hanyalah dua orang yang sekedar saling mengenal dan hanya sebatas teman yang tidak banyak percakapan maupun cerita panjang.
+                            Kisah panjang penuh arti ini dimulai dari tahun 2017, kami dipertemukan di bangku SMA, sebagai kakak kelas dan adik kelas. Berlanjut dari kami yang hanya sering berpapasan di kantin sekolah, sampai seiring berjalannya waktu kami berkenalan dan komunikasi secara intens.
                             <br><br>
-                            Waktu perlahan mempertemukan kami pada momen-momen istimewa. Kehendak Allah menuntun kami pada sebuah pertemuan yang tak pernah di sangka hingga akhirnya membawa kami pada sebuah jawaban dengan komitmen yang mengantarkan kami untuk melangsungkan lamaran pada bulan juli 2024.
+                            Meski terpisah oleh jarak dan waktu untuk menempuh jenjang perkuliahan, sampai pada akhirnya sempat tidak berkomunikasi. Pada akhirnya setelah 8 tahun bersama melewati pasang surut nya, Allah mempertemukan kembali dengan skenario Nya yang begitu indah.
+                            <br><br>
+                            November 2025 kami memutuskan untuk melangkah ke tahap berikutnya & menjalani hubungan yang lebih serius membangun masa depan bersama menjadikan perjalanan ini rumah, dan cinta selamanya tanpa pernah tahu bahwa perjalanan ini akan begitu panjang dan penuh cerita.
                         </p>
                     </div>
 
