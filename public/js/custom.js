@@ -5,6 +5,9 @@
 
 console.log('custom.js loaded - waiting for DOM...');
 
+// Global audio element for backsound
+let backsoundAudio = null;
+
 // ==================== 1. MAIN INVITATION LOGIC (OPEN/CLOSE) ====================
 function initInvitationController() {
     const openBtn = document.getElementById('openInvitationBtn');
@@ -20,10 +23,27 @@ function initInvitationController() {
         return;
     }
 
+    // Create backsound audio element if not exists
+    if (!backsoundAudio) {
+        backsoundAudio = new Audio('./lagu/backsound.mp3');
+        backsoundAudio.loop = true;
+        backsoundAudio.volume = 1;
+    }
+
     // Open Invitation
     openBtn.addEventListener('click', function() {
         landingContainer.classList.add('slide-out');
         invitationPanel.classList.add('show');
+
+        // Play backsound audio
+        if (backsoundAudio) {
+            backsoundAudio.play().catch(err => {
+                console.log('Audio autoplay failed:', err);
+            }).then(() => {
+                // Update button state after audio starts playing
+                updateAudioToggleState();
+            });
+        }
 
         // Play video background if exists
         if (panelVideo) {
@@ -44,6 +64,12 @@ function initInvitationController() {
         closeBtn.addEventListener('click', function() {
             landingContainer.classList.remove('slide-out');
             invitationPanel.classList.remove('show');
+
+            // Pause backsound audio when closing
+            if (backsoundAudio) {
+                backsoundAudio.pause();
+                backsoundAudio.currentTime = 0;
+            }
         });
     }
 
@@ -55,38 +81,50 @@ function initInvitationController() {
     });
 }
 
-// ==================== 2. AUDIO TOGGLE ====================
-function initAudioToggle() {
-    const panelVideo = document.getElementById('panelVideoBg');
+// Helper function to update audio toggle button state
+function updateAudioToggleState() {
     const audioToggleBtn = document.getElementById('panelAudioToggle');
 
-    if (!audioToggleBtn || !panelVideo) {
-        console.warn('Audio toggle or video element not found');
+    if (!audioToggleBtn) return;
+
+    if (!backsoundAudio || backsoundAudio.paused) {
+        audioToggleBtn.classList.add('muted');
+        audioToggleBtn.title = 'Unmute Audio';
+        audioToggleBtn.innerHTML = '<span class="audio-icon">🔇</span>';
+    } else {
+        audioToggleBtn.classList.remove('muted');
+        audioToggleBtn.title = 'Mute Audio';
+        audioToggleBtn.innerHTML = '<span class="audio-icon">🔊</span>';
+    }
+}
+
+// ==================== 2. AUDIO TOGGLE ====================
+function initAudioToggle() {
+    const audioToggleBtn = document.getElementById('panelAudioToggle');
+
+    if (!audioToggleBtn) {
+        console.warn('Audio toggle button not found');
         return;
     }
 
-    // Initialize audio as muted by default for browser policy compliance
-    panelVideo.muted = true;
-    updateAudioButtonState();
+    // Initialize audio toggle state
+    updateAudioToggleState();
 
     audioToggleBtn.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        panelVideo.muted = !panelVideo.muted;
-        updateAudioButtonState();
-    });
 
-    function updateAudioButtonState() {
-        if (panelVideo.muted) {
-            audioToggleBtn.classList.add('muted');
-            audioToggleBtn.title = 'Unmute Audio';
-            audioToggleBtn.innerHTML = '<span class="audio-icon">🔇</span>';
-        } else {
-            audioToggleBtn.classList.remove('muted');
-            audioToggleBtn.title = 'Mute Audio';
-            audioToggleBtn.innerHTML = '<span class="audio-icon">🔊</span>';
+        if (backsoundAudio) {
+            if (backsoundAudio.paused) {
+                backsoundAudio.play().catch(err => {
+                    console.log('Audio play failed:', err);
+                });
+            } else {
+                backsoundAudio.pause();
+            }
+            updateAudioToggleState();
         }
-    }
+    });
 }
 
 // ==================== 3. COUNTDOWN TIMER ====================
@@ -454,7 +492,7 @@ function initLocationButton() {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             // Ganti link di bawah sesuai link Google Maps venue Anda
-            window.open('https://goo.gl/maps/YOUR_MAP_LINK_HERE', '_blank');
+            window.open('https://maps.app.goo.gl/PV3DLW1Ngjeua5Eu6', '_blank');
         });
     });
 }
