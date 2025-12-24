@@ -610,7 +610,7 @@ function initLocationButton() {
     locationButtons.forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
-            // Ganti link di bawah sesuai link Google Maps venue Anda
+            // Buka Google Maps di tab baru
             window.open('https://maps.app.goo.gl/PV3DLW1Ngjeua5Eu6', '_blank');
         });
     });

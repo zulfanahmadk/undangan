@@ -124,6 +124,11 @@
                         <p class="event-date">Sabtu 17 Januari 2026</p>
                         <p class="event-time-text">11:00 - 14:00 WIB</p>
                         <p class="event-location-text">BALLROOM AL-MUSSADADIYAH<br>Jl. Mayor Syamsu No.2, Jayaraga, Kec. Tarogong Kidul, Kab. Garut, 44151</p>
+
+                        <div class="maps-preview-container">
+                            <iframe class="maps-embed" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.0190762155257!2d107.18654!3d-7.2333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d5a6a6a6a6a6a6a%3A0x1a1a1a1a1a1a1a1a!2sBallroom%20Al-Mussadadiyah%2C%20Garut!5e0!3m2!1sid!2sid!4v1702000000000" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+
                         <button class="btn-location">Lihat Lokasi</button>
                     </div>
 
@@ -195,7 +200,7 @@
                             Terima kasih atas segala ucapan, doa, dan perhatian yang diberikan.
                         </p>
                         <p class="closing-names">Pipit & Pael</p>
-                        <p class="closing-footer">Powered by Zulfan Ganteng</p>
+                        <p class="closing-footer">Powered By <a href="https://www.malahphotobooth.com" target="_blank" rel="noopener noreferrer">www.malahphotobooth.com</a></p>
                     </div>
 
                     <div style="height: 40px;"></div>
