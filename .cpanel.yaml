@@ -4,7 +4,7 @@ deployment:
     # =====================================
     # 1. DEPLOY CORE LARAVEL (TANPA public)
     # =====================================
-    - export DEPLOYPATH=/home/malahpho1/undangan
+    - export DEPLOYPATH=/home/malahpho1/wedding
     - /bin/rsync -av --delete --exclude='public' ./ $DEPLOYPATH/
 
     # =====================================
