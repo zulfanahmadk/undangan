@@ -13,8 +13,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Sacramento&family=Agbalumo&display=swap"
         rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('css/custom.css') }}?v=1.9">
-    <script src="{{ asset('js/custom.js') }}?v=1.4" defer></script>
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}?v=2.5">
+    <script src="{{ asset('js/custom.js') }}?v=2.5" defer></script>
 </head>
 
 <body>
@@ -126,7 +126,7 @@
                         <p class="event-location-text">BALLROOM AL-MUSSADADIYAH<br>Jl. Mayor Syamsu No.2, Jayaraga, Kec. Tarogong Kidul, Kab. Garut, 44151</p>
 
                         <div class="maps-preview-container">
-                            <iframe class="maps-embed" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.0190762155257!2d107.18654!3d-7.2333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d5a6a6a6a6a6a6a%3A0x1a1a1a1a1a1a1a1a!2sBallroom%20Al-Mussadadiyah%2C%20Garut!5e0!3m2!1sid!2sid!4v1702000000000" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            <iframe class="maps-embed" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3958.303239967147!2d107.89591980000002!3d-7.2062042!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68b057dec0b3d7%3A0x3fcb74fc60399b6d!2sJl.%20Mayor%20Syamsu%20No.2%2C%20Jayaraga%2C%20Kec.%20Tarogong%20Kidul%2C%20Kabupaten%20Garut%2C%20Jawa%20Barat%2044151!5e0!3m2!1sid!2sid!4v1766563972525!5m2!1sid!2sid" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
 
                         <button class="btn-location">Lihat Lokasi</button>
@@ -181,17 +181,6 @@
                         <input type="text" class="wishes-input" placeholder="Nama Anda">
                         <textarea class="wishes-textarea" placeholder="Ucapan & doa Anda"></textarea>
                         <button class="btn-send">Kirim Ucapan</button>
-
-                        <div class="wishes-list">
-                            <div class="wish-item">
-                                <p class="wish-author">Keluarga Besar</p>
-                                <p class="wish-text">Selamat menjalani bahtera rumah tangga, semoga lancar selalu dan penuh berkah 🎉</p>
-                            </div>
-                            <div class="wish-item">
-                                <p class="wish-author">Sahabat-Sahabat</p>
-                                <p class="wish-text">Barakallah untuk kalian berdua, semoga menjadi keluarga yang bahagia dan harmonis</p>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="right-section closing-section">
@@ -200,7 +189,7 @@
                             Terima kasih atas segala ucapan, doa, dan perhatian yang diberikan.
                         </p>
                         <p class="closing-names">Pipit & Pael</p>
-                        <p class="closing-footer">Powered By <a href="https://www.malahphotobooth.com" target="_blank" rel="noopener noreferrer">www.malahphotobooth.com</a></p>
+                        <p class="closing-footer">Powered By <a href="https://www.malahphotobooth.com" target="_blank" rel="noopener noreferrer">malahphotobooth.com</a></p>
                     </div>
 
                     <div style="height: 40px;"></div>
