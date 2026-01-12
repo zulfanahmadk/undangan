@@ -527,6 +527,13 @@ function initWishesSection() {
 
     sendBtn.addEventListener('click', submitWish);
 
+    // Allow Enter key to submit (Ctrl/Cmd + Enter)
+    wishesTextarea.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            submitWish();
+        }
+    });
+
     async function submitWish() {
         const name = wishesInput.value.trim();
         const text = wishesTextarea.value.trim();
@@ -541,7 +548,6 @@ function initWishesSection() {
         sendBtn.disabled = true;
 
         try {
-            // NOTE: Sesuaikan URL API Anda di sini
             const response = await fetch('/api/wishes', {
                 method: 'POST',
                 headers: {
@@ -556,15 +562,17 @@ function initWishesSection() {
             if (response.ok) {
                 wishesInput.value = '';
                 wishesTextarea.value = '';
-                if (data.wish) addWishToList(data.wish);
+                if (data.wish) {
+                    addWishToList(data.wish);
+                    removeEmptyState();
+                }
                 alert('Terima kasih atas ucapan Anda!');
             } else {
                 alert('Gagal mengirim: ' + (data.message || 'Error'));
             }
         } catch (error) {
             console.error('Submission error:', error);
-            // Fallback for demo if no backend:
-            // addWishToList({ name, text });
+            alert('Terjadi kesalahan saat mengirim ucapan');
         } finally {
             sendBtn.textContent = originalText;
             sendBtn.disabled = false;
@@ -577,12 +585,17 @@ function initWishesSection() {
             if (response.ok) {
                 const data = await response.json();
                 if (data.wishes && wishesList) {
-                    wishesList.innerHTML = ''; // Clear default
-                    data.wishes.forEach(wish => addWishToList(wish));
+                    wishesList.innerHTML = '';
+                    if (data.wishes.length === 0) {
+                        showEmptyState();
+                    } else {
+                        data.wishes.forEach(wish => addWishToList(wish));
+                    }
                 }
             }
         } catch (e) {
             console.log('Backend not connected yet for wishes');
+            showEmptyState();
         }
     }
 
@@ -590,11 +603,25 @@ function initWishesSection() {
         if (!wishesList) return;
         const div = document.createElement('div');
         div.className = 'wish-item';
+        div.style.animation = 'slideInFromBottom 0.5s ease-out';
         div.innerHTML = `
             <p class="wish-author"><strong>${esc(wish.name)}</strong></p>
             <p class="wish-text">${esc(wish.text)}</p>
         `;
         wishesList.prepend(div);
+    }
+
+    function showEmptyState() {
+        if (!wishesList) return;
+        wishesList.innerHTML = `<p class="wishes-empty">Belum ada ucapan. Jadilah yang pertama memberikan ucapan! 💝</p>`;
+    }
+
+    function removeEmptyState() {
+        if (!wishesList) return;
+        const emptyState = wishesList.querySelector('.wishes-empty');
+        if (emptyState) {
+            emptyState.remove();
+        }
     }
 
     function esc(str) {

@@ -181,6 +181,7 @@
                         <input type="text" class="wishes-input" placeholder="Nama Anda">
                         <textarea class="wishes-textarea" placeholder="Ucapan & doa Anda"></textarea>
                         <button class="btn-send">Kirim Ucapan</button>
+                        <div class="wishes-list"></div>
                     </div>
 
                     <div class="right-section closing-section">

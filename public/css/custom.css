@@ -817,6 +817,7 @@ body {
     max-height: 400px;
     overflow-y: auto;
     padding-right: var(--spacing-xs);
+    min-height: 100px;
 }
 
 .wishes-list::-webkit-scrollbar {
@@ -834,6 +835,14 @@ body {
 
 .wishes-list::-webkit-scrollbar-thumb:hover {
     background: var(--color-primary);
+}
+
+.wishes-empty {
+    text-align: center;
+    padding: var(--spacing-xl) var(--spacing-md);
+    color: var(--color-text-gray);
+    font-size: clamp(11px, 2.5vw, 12px);
+    font-style: italic;
 }
 
 .wish-item {
