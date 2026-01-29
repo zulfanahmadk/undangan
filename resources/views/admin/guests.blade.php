@@ -5,10 +5,10 @@
 @section('content')
     <div class="guests-page">
         <div class="page-header">
-            <h1>📋 Manajemen Daftar Tamu</h1>
+            <h1>Manajemen Daftar Tamu</h1>
             <p>Kelola daftar tamu untuk undangan pernikahan Anda</p>
             <button class="btn btn-primary" onclick="openAddModal()">
-                ➕ Tambah Tamu Baru
+                Tambah Tamu Baru
             </button>
         </div>
 
@@ -58,6 +58,7 @@
                                 <th>Nama Tamu</th>
                                 <th>No. Telpon</th>
                                 <th>URL Undangan</th>
+                                <th>Status</th>
                                 <th>Ditambahkan</th>
                                 <th>Diupdate</th>
                                 <th>Aksi</th>
@@ -87,6 +88,15 @@
                                         </a>
                                     </td>
                                     <td>
+                                        @php
+                                            $statusCode = $guest->status ?? 2;
+                                            $statusText = ($statusCode == 1) ? 'Terkirim' : 'Belum Dikirim';
+                                            $statusClass = ($statusCode == 1) ? 'guest-status-sent' : 'guest-status-pending';
+                                            $bgColor = ($statusCode == 1) ? '#10b981' : '#ef4444';
+                                        @endphp
+                                        <span class="guest-status {{ $statusClass }}" data-guest-id="{{ $guest->id }}" style="background: {{ $bgColor }}; color: white; padding: 8px 16px; border-radius: 20px; display: inline-block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; min-width: 140px; text-align: center;">{{ $statusText }}</span>
+                                    </td>
+                                    <td>
                                         <div class="guest-date">{{ $guest->created_at->format('d M Y H:i') }}</div>
                                     </td>
                                     <td>
@@ -95,18 +105,18 @@
                                     <td>
                                         <div class="table-actions">
                                             <button class="btn btn-edit btn-sm" onclick="openEditModal({{ $guest->id }}, '{{ addslashes($guest->name) }}', '{{ $guest->whatsapp ?? '' }}')">
-                                                ✏️ Edit
+                                                Edit
                                             </button>
                                             @if ($guest->whatsapp)
-                                            <button class="btn btn-whatsapp-send btn-sm" onclick="sendWhatsAppInvitation('{{ $guest->whatsapp }}', '{{ addslashes($guest->name) }}', '{{ $guest->slug }}')">
-                                                💬 Kirim Undangan
+                                            <button class="btn btn-whatsapp-send btn-sm" onclick="sendWhatsAppInvitation('{{ $guest->whatsapp }}', '{{ addslashes($guest->name) }}', '{{ $guest->slug }}', {{ $guest->id }})">
+                                                Kirim Undangan
                                             </button>
                                             @endif
                                             <form action="{{ route('guests.destroy', $guest->id) }}" method="POST" style="display: inline;" class="delete-form" data-guest-name="{{ $guest->name }}">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm">
-                                                    🗑️ Hapus
+                                                    Hapus
                                                 </button>
                                             </form>
                                         </div>
@@ -146,7 +156,7 @@
                     <h3>Belum Ada Tamu</h3>
                     <p>Mulai tambahkan daftar tamu untuk undangan Anda</p>
                     <button class="btn btn-primary" onclick="openAddModal()">
-                        ➕ Tambah Tamu Pertama
+                        Tambah Tamu Pertama
                     </button>
                 </div>
             @endif
@@ -164,7 +174,7 @@
             <form id="addForm" action="{{ route('guests.store') }}" method="POST" onsubmit="handleAddFormSubmit(event)" class="modal-form">
                 @csrf
                 <div class="form-group">
-                    <label class="form-label">Nama Tamu</label>
+                    <label class="form-label">Nama Tamu <span class="required-star">*</span></label>
                     <input type="text" name="name" class="form-input" placeholder="Masukkan nama lengkap" required autofocus>
                 </div>
                 <div class="form-group">
@@ -195,7 +205,7 @@
                 @csrf
                 @method('PUT')
                 <div class="form-group">
-                    <label class="form-label">Nama Tamu</label>
+                    <label class="form-label">Nama Tamu <span class="required-star">*</span></label>
                     <input type="text" id="editGuestName" name="name" class="form-input" placeholder="Masukkan nama lengkap" required autofocus>
                 </div>
                 <div class="form-group">

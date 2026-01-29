@@ -19,6 +19,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/guests/{id}', [GuestController::class, 'edit'])->name('guests.edit')->where('id', '\d+');
     Route::put('/guests/{id}', [GuestController::class, 'update'])->name('guests.update')->where('id', '\d+');
     Route::delete('/guests/{id}', [GuestController::class, 'destroy'])->name('guests.destroy')->where('id', '\d+');
+    Route::get('/wishes', [GuestController::class, 'wishes'])->name('admin.wishes');
 
     // User management routes
     Route::get('/users', [UserController::class, 'index'])->name('admin.users');

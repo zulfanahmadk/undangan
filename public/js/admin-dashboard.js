@@ -207,7 +207,16 @@ function handleAddFormSubmit(event) {
     event.preventDefault();
 
     const form = document.getElementById('addForm');
+    const nameInput = form.querySelector('input[name="name"]');
     const whatsappInput = document.getElementById('addWhatsappInput');
+
+    // Validate name field
+    const nameValue = (nameInput.value || '').trim();
+    if (!nameValue) {
+        alert('Nama Tamu wajib diisi!');
+        nameInput.focus();
+        return false;
+    }
 
     if (form && whatsappInput) {
         const value = (whatsappInput.value || '').trim();
@@ -243,7 +252,16 @@ function handleEditFormSubmit(event) {
     event.preventDefault();
 
     const form = document.getElementById('editForm');
+    const nameInput = document.getElementById('editGuestName');
     const whatsappInput = document.getElementById('editWhatsappInput');
+
+    // Validate name field
+    const nameValue = (nameInput.value || '').trim();
+    if (!nameValue) {
+        alert('Nama Tamu wajib diisi!');
+        nameInput.focus();
+        return false;
+    }
 
     if (form && whatsappInput) {
         const value = (whatsappInput.value || '').trim();
@@ -379,7 +397,7 @@ function formatWhatsAppForSubmit(input) {
 /**
  * Send WhatsApp invitation with pre-composed message
  */
-function sendWhatsAppInvitation(phoneNumber, guestName, guestSlug) {
+function sendWhatsAppInvitation(phoneNumber, guestName, guestSlug, guestId) {
     const invitationUrl = `https://wedding-pipit-pael.malahphotobooth.com/${guestSlug}`;
 
     const message = `Kepada Yth.
@@ -407,6 +425,53 @@ ________`;
     // Encode message for URL
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+    // Update guest status to "Sudah Kirim Undangan"
+    if (guestId) {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]');
+        console.log('Guest ID:', guestId, 'CSRF Token:', csrfToken?.content ? 'Found' : 'Not found');
+
+        if (csrfToken) {
+            const updateUrl = '/admin/guests/' + guestId;
+            console.log('Fetching:', updateUrl);
+
+            fetch(updateUrl, {
+                method: 'PUT',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken.content,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    status: 1
+                })
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Status updated successfully:', data);
+                // Update status in the DOM
+                const statusElement = document.querySelector(`.guest-status[data-guest-id="${guestId}"]`);
+                if (statusElement) {
+                    statusElement.textContent = 'Dikirim';
+                    statusElement.classList.remove('guest-status-pending');
+                    statusElement.classList.add('guest-status-sent');
+                    statusElement.style.background = '#10b981';
+                }
+            })
+            .catch(error => console.error('Error updating status:', error));
+        } else {
+            console.warn('CSRF token not found in page');
+        }
+    } else {
+        console.warn('Guest ID not provided');
+    }
 
     // Open WhatsApp with pre-composed message
     window.open(whatsappUrl, '_blank');

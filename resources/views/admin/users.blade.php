@@ -5,10 +5,10 @@
 @section('content')
     <div class="users-page">
         <div class="page-header">
-            <h1>👤 Manajemen Admin User</h1>
+            <h1>Manajemen Admin User</h1>
             <p>Kelola akun admin untuk sistem manajemen undangan</p>
             <button class="btn btn-primary" onclick="openAddUserModal()">
-                ➕ Tambah Admin User
+                Tambah Admin User
             </button>
         </div>
 
@@ -70,9 +70,9 @@
                                         <div class="user-roles">
                                             <span class="role-badge role-{{ $user->role }}">
                                                 @if ($user->role === 'admin')
-                                                    👑 Admin
+                                                    Admin
                                                 @elseif ($user->role === 'user')
-                                                    👤 User
+                                                    User
                                                 @else
                                                     {{ ucfirst($user->role) }}
                                                 @endif
@@ -85,13 +85,13 @@
                                     <td>
                                         <div class="table-actions">
                                             <button class="btn btn-edit btn-sm" onclick="openEditUserModal({{ $user->id }}, '{{ addslashes($user->name) }}', '{{ $user->username }}', '{{ $user->email }}', '{{ $user->role }}')">
-                                                ✏️ Edit
+                                                Edit
                                             </button>
                                             <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display: inline;" class="delete-form" data-user-name="{{ $user->name }}">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm">
-                                                    🗑️ Hapus
+                                                    Hapus
                                                 </button>
                                             </form>
                                         </div>
@@ -131,7 +131,7 @@
                     <h3>Belum Ada Admin User</h3>
                     <p>Tambahkan admin user pertama untuk memulai</p>
                     <button class="btn btn-primary" onclick="openAddUserModal()">
-                        ➕ Tambah Admin User Pertama
+                        Tambah Admin User Pertama
                     </button>
                 </div>
             @endif
@@ -167,9 +167,9 @@
                         @foreach ($roles as $role)
                             <option value="{{ $role['name'] }}">
                                 @if ($role['name'] === 'admin')
-                                    👑 Admin
+                                    Admin
                                 @elseif ($role['name'] === 'user')
-                                    👤 User
+                                    User
                                 @else
                                     {{ ucfirst($role['name']) }}
                                 @endif
@@ -223,9 +223,9 @@
                         @foreach ($roles as $role)
                             <option value="{{ $role['name'] }}">
                                 @if ($role['name'] === 'admin')
-                                    👑 Admin
+                                    Admin
                                 @elseif ($role['name'] === 'user')
-                                    👤 User
+                                    User
                                 @else
                                     {{ ucfirst($role['name']) }}
                                 @endif

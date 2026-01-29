@@ -544,6 +544,51 @@ body {
     letter-spacing: 0.5px;
 }
 
+/* ==================== STATUS SECTION ==================== */
+.status-section {
+    text-align: center;
+    margin-bottom: var(--spacing-2xl);
+}
+
+.status-badge {
+    display: inline-block;
+    padding: clamp(12px, 2vw, 16px) clamp(24px, 5vw, 40px);
+    border-radius: 50px;
+    font-size: clamp(12px, 3vw, 14px);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all var(--transition-normal);
+    border: none;
+}
+
+.status-badge.status-pending {
+    background: rgba(239, 68, 68, 0.35);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.25);
+}
+
+.status-badge.status-sent {
+    background: rgba(16, 185, 129, 0.35);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
+}
+
+.status-badge.status-sent {
+    animation: slideIn var(--transition-normal);
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* ==================== EVENT SECTION ==================== */
 .event-section {
     background: rgba(255, 255, 255, 0.08);

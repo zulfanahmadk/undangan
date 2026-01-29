@@ -11,6 +11,7 @@ class Guest extends Model
         'name',
         'slug',
         'whatsapp',
+        'status',
     ];
 
     public function getRouteKeyName()

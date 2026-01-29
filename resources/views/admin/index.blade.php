@@ -5,7 +5,7 @@
 @section('content')
     <div class="dashboard-page">
         <div class="page-header">
-            <h1>📊 Dashboard</h1>
+            <h1>Dashboard</h1>
             <p>Ringkasan informasi manajemen undangan Anda</p>
         </div>
 
@@ -64,19 +64,19 @@
         </div>
 
         <div class="quick-actions">
-            <h3>⚡ Aksi Cepat</h3>
+            <h3>Aksi Cepat</h3>
             <div class="action-buttons">
                 <a href="{{ route('admin.guests') }}" class="btn btn-primary">
-                    ➕ Kelola Daftar Tamu
+                    Kelola Daftar Tamu
                 </a>
                 <a href="/" class="btn btn-secondary">
-                    👁️ Lihat Undangan
+                    Lihat Undangan
                 </a>
             </div>
         </div>
 
         <div class="recent-guests">
-            <h3>👥 Tamu Terbaru</h3>
+            <h3>Tamu Terbaru</h3>
             @if ($recentGuests->count() > 0)
                 <div class="guests-list">
                     @foreach ($recentGuests as $guest)

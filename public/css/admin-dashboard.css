@@ -187,6 +187,12 @@ body {
 .guests-table td {
     padding: 15px 20px;
     border-bottom: 1px solid #e5e7eb;
+    vertical-align: middle;
+}
+
+.guests-table tbody tr td:nth-child(4) {
+    width: 160px;
+    text-align: center;
 }
 
 .guests-table tbody tr {
@@ -239,6 +245,30 @@ body {
 
 .whatsapp-empty {
     color: #ccc;
+}
+
+.guest-status {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    min-width: 150px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.guest-status-pending {
+    background: #ef4444;
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+}
+
+.guest-status-sent {
+    background: #10b981;
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
 }
 
 .table-actions {

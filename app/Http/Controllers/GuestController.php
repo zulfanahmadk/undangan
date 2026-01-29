@@ -35,6 +35,7 @@ class GuestController extends Controller
             'name' => 'required|string|max:255',
             'whatsapp' => 'required|string|regex:/^62\d{9,12}$/',
         ], [
+            'name.required' => 'Nama Tamu wajib diisi',
             'whatsapp.required' => 'Nomor WhatsApp wajib diisi',
             'whatsapp.regex' => 'Nomor WhatsApp tidak valid. Format: 6282216210360 (9-12 digit)',
         ]);
@@ -98,10 +99,25 @@ class GuestController extends Controller
     {
         $guest = Guest::findOrFail($id);
 
+        // Handle JSON requests (status update from AJAX)
+        if ($request->expectsJson() || $request->isJson() || $request->has('status')) {
+            $validated = $request->validate([
+                'status' => 'required|integer|in:1,2',
+            ]);
+
+            $guest->update([
+                'status' => $validated['status'],
+            ]);
+
+            return response()->json(['success' => true, 'status' => $guest->status]);
+        }
+
+        // Handle form submissions (name and whatsapp update)
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'whatsapp' => 'required|string|regex:/^62\d{9,12}$/',
         ], [
+            'name.required' => 'Nama Tamu wajib diisi',
             'whatsapp.required' => 'Nomor WhatsApp wajib diisi',
             'whatsapp.regex' => 'Nomor WhatsApp tidak valid. Format: 6282216210360 (9-12 digit)',
         ]);
@@ -128,5 +144,11 @@ class GuestController extends Controller
             'guest' => $guest,
             'guestName' => $guest->name,
         ]);
+    }
+
+    public function wishes()
+    {
+        $wishes = \App\Models\Wish::orderBy('created_at', 'desc')->paginate(20);
+        return view('admin.wishes', ['wishes' => $wishes]);
     }
 }

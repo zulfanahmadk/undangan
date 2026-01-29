@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title') - Admin Dashboard</title>
     <link rel="stylesheet" href="{{ asset('css/admin-layout.css') }}">
     @yield('extra-css')
@@ -28,6 +29,10 @@
                 <a href="{{ route('admin.guests') }}" class="menu-item {{ request()->routeIs('admin.guests') ? 'active' : '' }}">
                     <span class="menu-icon">👥</span>
                     <span class="menu-label">Daftar Tamu</span>
+                </a>
+                <a href="{{ route('admin.wishes') }}" class="menu-item {{ request()->routeIs('admin.wishes') ? 'active' : '' }}">
+                    <span class="menu-icon">💌</span>
+                    <span class="menu-label">Ucapan & Doa</span>
                 </a>
                 @if (Auth::user()->isAdmin())
                     <a href="{{ route('admin.users') }}" class="menu-item {{ request()->routeIs('admin.users') ? 'active' : '' }}">
