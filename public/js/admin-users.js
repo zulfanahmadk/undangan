@@ -24,12 +24,13 @@ function handleAddUserFormSubmit(e) {
 }
 
 // Edit User Modal
-function openEditUserModal(userId, userName, userEmail, roleId) {
+function openEditUserModal(userId, userName, userUsername, userEmail, role) {
     const modal = document.getElementById('editUserModal');
     if (modal) {
         document.getElementById('editUserName').value = userName;
+        document.getElementById('editUserUsername').value = userUsername;
         document.getElementById('editUserEmail').value = userEmail;
-        document.getElementById('editUserRole').value = roleId || 2; // Default to user role
+        document.getElementById('editUserRole').value = role || 'user'; // Default to user role
         document.getElementById('editUserForm').action = `/admin/users/${userId}`;
         modal.classList.add('active');
         document.getElementById('editUserName').focus();

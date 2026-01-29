@@ -20,7 +20,9 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'username',
         'password',
+        'role',
     ];
 
     /**
@@ -47,11 +49,12 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the roles that the user has
+     * Get role attribute with default fallback
      */
-    public function roles()
+    public function getRoleAttribute($value)
     {
-        return $this->belongsToMany(Role::class, 'role_user');
+        // Return the value if it's not null/empty, otherwise default to 'user'
+        return !empty($value) ? $value : 'user';
     }
 
     /**
@@ -59,7 +62,7 @@ class User extends Authenticatable
      */
     public function hasRole(string $role): bool
     {
-        return $this->roles()->where('name', $role)->exists();
+        return $this->role === $role;
     }
 
     /**
@@ -67,6 +70,6 @@ class User extends Authenticatable
      */
     public function isAdmin(): bool
     {
-        return $this->hasRole('admin');
+        return $this->role === 'admin';
     }
 }

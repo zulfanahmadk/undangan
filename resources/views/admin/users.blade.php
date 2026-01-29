@@ -47,6 +47,7 @@
                         <thead>
                             <tr>
                                 <th>Nama</th>
+                                <th>Username</th>
                                 <th>Email</th>
                                 <th>Role</th>
                                 <th>Terdaftar Sejak</th>
@@ -60,21 +61,22 @@
                                         <div class="user-name">{{ $user->name }}</div>
                                     </td>
                                     <td>
+                                        <div class="user-username">{{ $user->username }}</div>
+                                    </td>
+                                    <td>
                                         <div class="user-email">{{ $user->email }}</div>
                                     </td>
                                     <td>
                                         <div class="user-roles">
-                                            @foreach ($user->roles as $role)
-                                                <span class="role-badge role-{{ $role->name }}">
-                                                    @if ($role->name === 'admin')
-                                                        👑 Admin
-                                                    @elseif ($role->name === 'user')
-                                                        👤 User
-                                                    @else
-                                                        {{ ucfirst($role->name) }}
-                                                    @endif
-                                                </span>
-                                            @endforeach
+                                            <span class="role-badge role-{{ $user->role }}">
+                                                @if ($user->role === 'admin')
+                                                    👑 Admin
+                                                @elseif ($user->role === 'user')
+                                                    👤 User
+                                                @else
+                                                    {{ ucfirst($user->role) }}
+                                                @endif
+                                            </span>
                                         </div>
                                     </td>
                                     <td>
@@ -82,7 +84,7 @@
                                     </td>
                                     <td>
                                         <div class="table-actions">
-                                            <button class="btn btn-edit btn-sm" onclick="openEditUserModal({{ $user->id }}, '{{ addslashes($user->name) }}', '{{ $user->email }}', {{ $user->roles->first()->id ?? 2 }})">
+                                            <button class="btn btn-edit btn-sm" onclick="openEditUserModal({{ $user->id }}, '{{ addslashes($user->name) }}', '{{ $user->username }}', '{{ $user->email }}', '{{ $user->role }}')">
                                                 ✏️ Edit
                                             </button>
                                             <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display: inline;" class="delete-form" data-user-name="{{ $user->name }}">
@@ -151,21 +153,25 @@
                     <input type="text" name="name" class="form-input" placeholder="Masukkan nama admin" required autofocus>
                 </div>
                 <div class="form-group">
+                    <label class="form-label">Username <span class="required-star">*</span></label>
+                    <input type="text" name="username" class="form-input" placeholder="Masukkan username" required>
+                </div>
+                <div class="form-group">
                     <label class="form-label">Email <span class="required-star">*</span></label>
                     <input type="email" name="email" class="form-input" placeholder="Masukkan email admin" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Role <span class="required-star">*</span></label>
-                    <select name="role_id" class="form-input" required>
+                    <select name="role" class="form-input" required>
                         <option value="">Pilih Role</option>
                         @foreach ($roles as $role)
-                            <option value="{{ $role->id }}">
-                                @if ($role->name === 'admin')
+                            <option value="{{ $role['name'] }}">
+                                @if ($role['name'] === 'admin')
                                     👑 Admin
-                                @elseif ($role->name === 'user')
+                                @elseif ($role['name'] === 'user')
                                     👤 User
                                 @else
-                                    {{ ucfirst($role->name) }}
+                                    {{ ucfirst($role['name']) }}
                                 @endif
                             </option>
                         @endforeach
@@ -204,20 +210,24 @@
                     <input type="text" id="editUserName" name="name" class="form-input" placeholder="Masukkan nama admin" required autofocus>
                 </div>
                 <div class="form-group">
+                    <label class="form-label">Username <span class="required-star">*</span></label>
+                    <input type="text" id="editUserUsername" name="username" class="form-input" placeholder="Masukkan username" required>
+                </div>
+                <div class="form-group">
                     <label class="form-label">Email <span class="required-star">*</span></label>
                     <input type="email" id="editUserEmail" name="email" class="form-input" placeholder="Masukkan email admin" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Role <span class="required-star">*</span></label>
-                    <select id="editUserRole" name="role_id" class="form-input" required>
+                    <select id="editUserRole" name="role" class="form-input" required>
                         @foreach ($roles as $role)
-                            <option value="{{ $role->id }}">
-                                @if ($role->name === 'admin')
+                            <option value="{{ $role['name'] }}">
+                                @if ($role['name'] === 'admin')
                                     👑 Admin
-                                @elseif ($role->name === 'user')
+                                @elseif ($role['name'] === 'user')
                                     👤 User
                                 @else
-                                    {{ ucfirst($role->name) }}
+                                    {{ ucfirst($role['name']) }}
                                 @endif
                             </option>
                         @endforeach

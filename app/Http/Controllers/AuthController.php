@@ -21,10 +21,26 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
+        $loginInput = $request->validate([
+            'login' => 'required|string',
             'password' => 'required',
         ]);
+
+        // Determine if input is email or username
+        $isEmail = filter_var($loginInput['login'], FILTER_VALIDATE_EMAIL);
+
+        // Try to authenticate with email first if input looks like email, otherwise try username
+        if ($isEmail) {
+            $credentials = [
+                'email' => $loginInput['login'],
+                'password' => $loginInput['password'],
+            ];
+        } else {
+            $credentials = [
+                'username' => $loginInput['login'],
+                'password' => $loginInput['password'],
+            ];
+        }
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
@@ -32,8 +48,8 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ])->onlyInput('email');
+            'login' => 'Username/Email atau password salah.',
+        ])->onlyInput('login');
     }
 
     /**
@@ -44,6 +60,6 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/');
+        return redirect()->route('login');
     }
 }

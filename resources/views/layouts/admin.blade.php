@@ -29,10 +29,12 @@
                     <span class="menu-icon">👥</span>
                     <span class="menu-label">Daftar Tamu</span>
                 </a>
-                <a href="{{ route('admin.users') }}" class="menu-item {{ request()->routeIs('admin.users') ? 'active' : '' }}">
-                    <span class="menu-icon">👤</span>
-                    <span class="menu-label">Admin User</span>
-                </a>
+                @if (Auth::user()->isAdmin())
+                    <a href="{{ route('admin.users') }}" class="menu-item {{ request()->routeIs('admin.users') ? 'active' : '' }}">
+                        <span class="menu-icon">👤</span>
+                        <span class="menu-label">Admin User</span>
+                    </a>
+                @endif
             </nav>
 
             <div class="sidebar-footer">

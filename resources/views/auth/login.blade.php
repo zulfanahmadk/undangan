@@ -15,7 +15,7 @@
 
         @if ($errors->any())
             <div class="error-message">
-                {{ $errors->first('email') }}
+                {{ $errors->first('login') }}
             </div>
         @endif
 
@@ -23,13 +23,13 @@
             @csrf
 
             <div class="form-group">
-                <label class="form-label">Email</label>
-                <input type="email" 
-                       name="email" 
-                       class="form-input" 
-                       placeholder="Masukkan email Anda"
-                       value="{{ old('email') }}"
-                       required 
+                <label class="form-label">Username / Email</label>
+                <input type="text"
+                       name="login"
+                       class="form-input"
+                       placeholder="Masukkan username atau email Anda"
+                       value="{{ old('login') }}"
+                       required
                        autofocus>
             </div>
 

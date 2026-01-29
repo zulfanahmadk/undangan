@@ -6,16 +6,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Models\Guest;
 
-// Temporary migration route
-Route::get('/setup/migrate', function () {
-    try {
-        \Illuminate\Support\Facades\Artisan::call('migrate');
-        return 'Migration berhasil dijalankan! Redirect ke <a href="/admin/dashboard">dashboard</a>';
-    } catch (\Exception $e) {
-        return 'Error: ' . $e->getMessage();
-    }
-});
-
 // Auth routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -40,7 +30,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 Route::get('/', function () {
     $guestSlug = request('to');
     $guest = null;
-    $guestName = 'Keluarga Besar H. Emor Atmadidjaja';
+    $guestName = 'Test';
 
     if ($guestSlug) {
         $guest = Guest::where('slug', $guestSlug)->first();

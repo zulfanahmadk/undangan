@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -10,14 +9,25 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     /**
+     * Available roles in the system
+     */
+    private const AVAILABLE_ROLES = [
+        ['id' => 'admin', 'name' => 'admin'],
+        ['id' => 'user', 'name' => 'user'],
+    ];
+
+    /**
      * Display a listing of users
      */
     public function index()
     {
-        $this->authorize('admin');
+        // Check if user is admin
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'This action is unauthorized.');
+        }
 
-        $users = User::with('roles')->orderBy('created_at', 'desc')->paginate(10);
-        $roles = Role::all();
+        $users = User::orderBy('created_at', 'desc')->paginate(10);
+        $roles = self::AVAILABLE_ROLES;
         return view('admin.users', ['users' => $users, 'roles' => $roles]);
     }
 
@@ -26,33 +36,38 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('admin');
+        // Check if user is admin
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'This action is unauthorized.');
+        }
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
+            'username' => 'required|string|max:255|unique:users,username',
             'password' => 'required|min:6|confirmed',
-            'role_id' => 'required|exists:roles,id',
+            'role' => 'required|in:admin,user',
         ], [
             'name.required' => 'Nama wajib diisi',
             'email.required' => 'Email wajib diisi',
             'email.email' => 'Format email tidak valid',
             'email.unique' => 'Email sudah terdaftar',
+            'username.required' => 'Username wajib diisi',
+            'username.unique' => 'Username sudah terdaftar',
             'password.required' => 'Password wajib diisi',
             'password.min' => 'Password minimal 6 karakter',
             'password.confirmed' => 'Konfirmasi password tidak cocok',
-            'role_id.required' => 'Role wajib dipilih',
-            'role_id.exists' => 'Role yang dipilih tidak valid',
+            'role.required' => 'Role wajib dipilih',
+            'role.in' => 'Role yang dipilih tidak valid',
         ]);
 
         try {
             $user = User::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
+                'username' => $validated['username'],
                 'password' => Hash::make($validated['password']),
+                'role' => $validated['role'],
             ]);
-
-            // Attach role to user
-            $user->roles()->attach($validated['role_id']);
 
             return back()->with('success', 'Admin user berhasil ditambahkan');
         } catch (\Exception $e) {
@@ -65,35 +80,40 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $this->authorize('admin');
+        // Check if user is admin
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'This action is unauthorized.');
+        }
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
             'password' => 'nullable|min:6|confirmed',
-            'role_id' => 'required|exists:roles,id',
+            'role' => 'required|in:admin,user',
         ], [
             'name.required' => 'Nama wajib diisi',
             'email.required' => 'Email wajib diisi',
             'email.email' => 'Format email tidak valid',
             'email.unique' => 'Email sudah terdaftar',
+            'username.required' => 'Username wajib diisi',
+            'username.unique' => 'Username sudah terdaftar',
             'password.min' => 'Password minimal 6 karakter',
             'password.confirmed' => 'Konfirmasi password tidak cocok',
-            'role_id.required' => 'Role wajib dipilih',
-            'role_id.exists' => 'Role yang dipilih tidak valid',
+            'role.required' => 'Role wajib dipilih',
+            'role.in' => 'Role yang dipilih tidak valid',
         ]);
 
         try {
             $user->name = $validated['name'];
             $user->email = $validated['email'];
+            $user->username = $validated['username'];
+            $user->role = $validated['role'];
 
             if ($validated['password']) {
                 $user->password = Hash::make($validated['password']);
             }
 
             $user->save();
-
-            // Update user roles
-            $user->roles()->sync([$validated['role_id']]);
 
             return back()->with('success', 'Admin user berhasil diperbarui');
         } catch (\Exception $e) {
@@ -106,7 +126,10 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $this->authorize('admin');
+        // Check if user is admin
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'This action is unauthorized.');
+        }
         try {
             $userName = $user->name;
             $user->delete();
