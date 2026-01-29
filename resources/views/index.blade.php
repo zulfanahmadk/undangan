@@ -175,6 +175,17 @@
                         <button class="btn-gift">Kirim Hadiah</button>
                     </div>
 
+                    @if ($guest && $guest->whatsapp)
+                    <div class="right-section whatsapp-section">
+                        <h3 class="section-title">Hubungi Kami</h3>
+                        <p class="whatsapp-label">Nomor WhatsApp</p>
+                        <div class="whatsapp-display">
+                            <span class="whatsapp-number">+{{ $guest->whatsapp }}</span>
+                            <a href="https://wa.me/{{ $guest->whatsapp }}" target="_blank" class="btn-whatsapp">Buka WhatsApp</a>
+                        </div>
+                    </div>
+                    @endif
+
                     <div class="right-section wishes-section">
                         <h3 class="section-title">Ucapan & Doa</h3>
                         <p class="wishes-subtitle">Tuliskan nama dan ucapan/doa Anda:</p>

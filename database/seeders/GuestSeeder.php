@@ -13,18 +13,20 @@ class GuestSeeder extends Seeder
      */
     public function run(): void
     {
+        // Mengubah array menjadi asosiatif agar bisa menyimpan nama dan nomor WhatsApp
         $guests = [
-            'John Doe',
-            'Jane Smith',
-            'Ali Rahman',
-            'Siti Nurhaliza',
-            'Budi Santoso',
+            ['name' => 'John Doe', 'whatsapp' => '6281234567890'],
+            ['name' => 'Jane Smith', 'whatsapp' => '6281234567891'],
+            ['name' => 'Ali Rahman', 'whatsapp' => '6281234567892'],
+            ['name' => 'Siti Nurhaliza', 'whatsapp' => '6281234567893'],
+            ['name' => 'Budi Santoso', 'whatsapp' => '6281234567894'],
         ];
 
-        foreach ($guests as $name) {
+        foreach ($guests as $guest) {
             Guest::create([
-                'name' => $name,
-                'slug' => Str::slug($name),
+                'name'     => $guest['name'],
+                'slug'     => Str::slug($guest['name']),
+                'whatsapp' => $guest['whatsapp'], // Menambahkan input ke field whatsapp
             ]);
         }
     }
