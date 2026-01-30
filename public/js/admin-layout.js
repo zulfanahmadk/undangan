@@ -31,6 +31,38 @@ function toggleSidebar() {
     updateMobileMenuToggle();
 }
 
+// Session timeout configuration (5 minutes = 300000 ms)
+let inactivityTimeout;
+const INACTIVITY_DURATION = 5 * 60 * 1000; // 5 minutes
+
+function resetInactivityTimer() {
+    // Clear existing timeout
+    if (inactivityTimeout) {
+        clearTimeout(inactivityTimeout);
+    }
+
+    // Set new timeout
+    inactivityTimeout = setTimeout(function() {
+        // Auto logout due to inactivity
+        const logoutForm = document.getElementById('logoutForm');
+        if (logoutForm) {
+            logoutForm.submit();
+        }
+    }, INACTIVITY_DURATION);
+}
+
+function setupInactivityDetection() {
+    // List of events that indicate user activity
+    const activityEvents = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll', 'click'];
+
+    activityEvents.forEach(function(eventName) {
+        document.addEventListener(eventName, resetInactivityTimer, true);
+    });
+
+    // Initialize timer on page load
+    resetInactivityTimer();
+}
+
 // Load saved sidebar state and initialize user menu
 document.addEventListener('DOMContentLoaded', function() {
     const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
@@ -99,6 +131,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // Initialize session inactivity detection
+    setupInactivityDetection();
 });
 
 // Handle window resize to update mobile menu toggle visibility
