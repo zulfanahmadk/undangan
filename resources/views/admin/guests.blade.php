@@ -108,8 +108,11 @@
                                                 Edit
                                             </button>
                                             @if ($guest->whatsapp)
-                                            <button class="btn btn-whatsapp-send btn-sm" onclick="sendWhatsAppInvitation('{{ $guest->whatsapp }}', '{{ addslashes($guest->name) }}', '{{ $guest->slug }}', {{ $guest->id }})">
-                                                Kirim Undangan
+                                            <button class="btn btn-whatsapp-send btn-sm" onclick="sendWhatsAppInvitation('{{ $guest->whatsapp }}', '{{ addslashes($guest->name) }}', '{{ $guest->slug }}', {{ $guest->id }}, 'https://wedding-salma-fadli.malahphotobooth.com')">
+                                                Dangdut
+                                            </button>
+                                            <button class="btn btn-whatsapp-send btn-sm" onclick="sendWhatsAppInvitation('{{ $guest->whatsapp }}', '{{ addslashes($guest->name) }}', '{{ $guest->slug }}', {{ $guest->id }}, 'https://wedding-fadli-salma.malahphotobooth.com')">
+                                                Formal
                                             </button>
                                             @endif
                                             <form action="{{ route('guests.destroy', $guest->id) }}" method="POST" style="display: inline;" class="delete-form" data-guest-name="{{ $guest->name }}">
