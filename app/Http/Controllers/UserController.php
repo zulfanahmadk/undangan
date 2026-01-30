@@ -138,4 +138,62 @@ class UserController extends Controller
             return back()->with('error', 'Gagal menghapus admin user: ' . $e->getMessage());
         }
     }
+
+    /**
+     * Show account settings for logged-in user
+     */
+    public function showAccountSettings()
+    {
+        $user = auth()->user();
+        return view('admin.account-settings', ['user' => $user]);
+    }
+
+    /**
+     * Update account settings for logged-in user
+     */
+    public function updateAccountSettings(Request $request)
+    {
+        $user = auth()->user();
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'current_password' => 'nullable|string',
+            'new_password' => 'nullable|min:6|confirmed',
+        ], [
+            'name.required' => 'Nama wajib diisi',
+            'username.required' => 'Username wajib diisi',
+            'username.unique' => 'Username sudah digunakan',
+            'email.required' => 'Email wajib diisi',
+            'email.email' => 'Format email tidak valid',
+            'email.unique' => 'Email sudah terdaftar',
+            'new_password.min' => 'Password baru minimal 6 karakter',
+            'new_password.confirmed' => 'Konfirmasi password tidak cocok',
+        ]);
+
+        try {
+            // If user wants to change password, verify current password
+            if ($validated['new_password']) {
+                if (!$validated['current_password']) {
+                    return back()->with('error', 'Password saat ini wajib diisi untuk mengubah password');
+                }
+
+                if (!Hash::check($validated['current_password'], $user->password)) {
+                    return back()->with('error', 'Password saat ini tidak cocok');
+                }
+
+                $user->password = Hash::make($validated['new_password']);
+            }
+
+            $user->name = $validated['name'];
+            $user->username = $validated['username'];
+            $user->email = $validated['email'];
+            $user->save();
+
+            return back()->with('success', 'Pengaturan akun berhasil diperbarui');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal memperbarui pengaturan akun: ' . $e->getMessage());
+        }
+    }
 }

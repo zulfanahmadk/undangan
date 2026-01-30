@@ -361,6 +361,12 @@ body {
     color: var(--primary-color);
 }
 
+.dropdown-divider {
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 4px 0;
+}
+
 .main-content {
     flex: 1;
     overflow-y: auto;
@@ -1291,6 +1297,11 @@ body {
     background-color: #dbeafe;
     color: #1e40af;
     border: 1px solid #93c5fd;
+}
+
+/* Hidden Form Utility */
+.hidden-form {
+    display: none;
 }
 
 /* Responsive Design */

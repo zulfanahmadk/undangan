@@ -6,12 +6,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title') - Admin Dashboard</title>
     <link rel="stylesheet" href="{{ asset('css/admin-layout.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/password-toggle.css') }}">
     @yield('extra-css')
 </head>
 <body>
     <div class="admin-container">
         <!-- Mobile Menu Toggle Button -->
-        <button class="mobile-menu-toggle" id="mobileMenuToggle" onclick="toggleSidebar()">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">
             <span></span>
             <span></span>
             <span></span>
@@ -21,7 +22,7 @@
         <aside class="admin-sidebar" id="adminSidebar">
             <div class="sidebar-header">
                 <h2 class="sidebar-title">Dashboard</h2>
-                <button class="sidebar-toggle-btn" id="sidebarToggleBtn" onclick="toggleSidebar()">
+                <button class="sidebar-toggle-btn" id="sidebarToggleBtn">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -71,11 +72,15 @@
                         <span class="dropdown-icon">▼</span>
                     </button>
                     <div class="user-dropdown" id="userDropdown">
-                        <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">
+                        <a href="{{ route('account-settings') }}" class="dropdown-item">
+                            ⚙️ Pengaturan
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item" id="logoutLink">
                             🚪 Keluar
                         </a>
                     </div>
-                    <form id="logoutForm" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    <form id="logoutForm" action="{{ route('logout') }}" method="POST" class="hidden-form">
                         @csrf
                     </form>
                 </div>
@@ -88,6 +93,7 @@
     </div>
 
     <script src="{{ asset('js/admin-layout.js') }}"></script>
+    <script src="{{ asset('js/password-toggle.js') }}"></script>
 
     @yield('extra-js')
 </body>

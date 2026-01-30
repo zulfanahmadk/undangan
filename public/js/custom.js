@@ -212,12 +212,12 @@ function initGiftModal() {
                 
                 <div class="bank-account-card">
                     <div class="bank-account-content">
-                        <div class="bank-name">BRI</div>
+                        <div class="bank-name">Sea Bank</div>
                         <div class="bank-account-wrapper">
-                            <span class="bank-account-number">416901014462509</span>
-                            <button class="copy-btn" data-account="416901014462509" title="Copy">📋</button>
+                            <span class="bank-account-number">901813882790</span>
+                            <button class="copy-btn" data-account="901813882790" title="Copy">📋</button>
                         </div>
-                        <div class="bank-account-name">SYIFA EL YANUAR</div>
+                        <div class="bank-account-name">Fadli Faturahman</div>
                     </div>
                 </div>
 
@@ -225,10 +225,10 @@ function initGiftModal() {
                     <div class="bank-account-content">
                         <div class="bank-name">BCA</div>
                         <div class="bank-account-wrapper">
-                            <span class="bank-account-number">1482428732</span>
-                            <button class="copy-btn" data-account="1482428732" title="Copy">📋</button>
+                            <span class="bank-account-number">1482359226</span>
+                            <button class="copy-btn" data-account="1482359226" title="Copy">📋</button>
                         </div>
-                        <div class="bank-account-name">FITRI UTAMI</div>
+                        <div class="bank-account-name">Lutfisalma Sulapha</div>
                     </div>
                 </div>
             </div>

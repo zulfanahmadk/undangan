@@ -20,7 +20,7 @@
 <body>
     <div class="page-wrapper">
         <!-- Landing Container -->
-        <div class="landing-container" id="landingContainer" style="background-image: url('{{ asset('img/background.jpg') }}');">
+        <div class="landing-container" id="landingContainer">
             <div class="landing-content">
                 <h1 class="wedding-title">The Wedding Of</h1>
                 <h2 class="couple-names">Salma & Fadli</h2>

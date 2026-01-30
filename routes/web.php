@@ -26,6 +26,10 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
     Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+
+    // Account settings routes (for logged-in user to manage their own account)
+    Route::get('/account-settings', [UserController::class, 'showAccountSettings'])->name('account-settings');
+    Route::put('/account-settings', [UserController::class, 'updateAccountSettings'])->name('account-settings.update');
 });
 
 Route::get('/', function () {

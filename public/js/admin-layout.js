@@ -44,6 +44,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update mobile menu toggle visibility
     updateMobileMenuToggle();
 
+    // Mobile menu toggle button
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', toggleSidebar);
+    }
+
+    // Sidebar toggle button
+    const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
+    if (sidebarToggleBtn) {
+        sidebarToggleBtn.addEventListener('click', toggleSidebar);
+    }
+
     // Close sidebar when backdrop is clicked on mobile
     const container = document.querySelector('.admin-container');
     if (container) {
@@ -72,6 +84,18 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!e.target.closest('.user-menu')) {
                 userMenuBtn.classList.remove('active');
                 userDropdown.classList.remove('active');
+            }
+        });
+    }
+
+    // Logout link handler
+    const logoutLink = document.getElementById('logoutLink');
+    if (logoutLink) {
+        logoutLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            const logoutForm = document.getElementById('logoutForm');
+            if (logoutForm) {
+                logoutForm.submit();
             }
         });
     }
