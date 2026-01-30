@@ -727,65 +727,40 @@ body {
 
 /* ==================== GALLERY SECTION ==================== */
 .gallery-section {
-    margin-bottom: var(--spacing-3xl);
+    margin-bottom: 40px;
+    width: 100%;
 }
 
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(7, 100px);
-    grid-column-gap: 8px;
-    grid-row-gap: 8px;
+    /* PENTING: Definisi Grid 9 Kolom & 12 Baris */
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(12, 100px); /* Desktop menggunakan tinggi fix 100px per baris */
+    gap: 8px;
     width: 100%;
 }
 
-.gallery-img1,
-.gallery-img2,
-.gallery-img3,
-.gallery-img4,
-.gallery-img5,
-.gallery-img6,
-.gallery-img7,
-.gallery-img8,
-.gallery-img9,
-.gallery-img10,
-.gallery-img11,
-.gallery-img12 {
+.gallery-grid img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: var(--border-radius-lg);
-    cursor: pointer;
     transition: transform var(--transition-normal);
 }
 
-.gallery-img1:hover,
-.gallery-img2:hover,
-.gallery-img3:hover,
-.gallery-img4:hover,
-.gallery-img5:hover,
-.gallery-img6:hover,
-.gallery-img7:hover,
-.gallery-img8:hover,
-.gallery-img9:hover,
-.gallery-img10:hover,
-.gallery-img11:hover,
-.gallery-img12:hover {
-    transform: scale(1.05);
-}
-
-.gallery-img1{ grid-area: 1 / 2 / 3 / 3; }
-.gallery-img2{ grid-area: 3 / 2 / 5 / 3; }
-.gallery-img3{ grid-area: 1 / 4 / 3 / 5; }
-.gallery-img4{ grid-area: 3 / 4 / 5 / 5; }
-.gallery-img5{ grid-area: 1 / 1 / 4 / 2; }
-.gallery-img6{ grid-area: 4 / 1 / 6 / 2; }
-.gallery-img7{ grid-area: 6 / 1 / 8 / 2; }
-.gallery-img8{ grid-area: 5 / 2 / 8 / 3; }
-.gallery-img9{ grid-area: 1 / 3 / 4 / 4; }
-.gallery-img10 { grid-area: 4 / 3 / 6 / 4; }
-.gallery-img11 { grid-area: 6 / 3 / 8 / 4; }
-.gallery-img12 { grid-area: 5 / 4 / 8 / 5; }
+/* Mapping Area (Koordinat Posisi) */
+.gallery-img1   { grid-area: 1 / 1 / 4 / 3; }
+.gallery-img2   { grid-area: 4 / 1 / 7 / 4; }
+.gallery-img3   { grid-area: 1 / 3 / 4 / 5; }
+.gallery-img4   { grid-area: 4 / 4 / 7 / 7; }
+.gallery-img5   { grid-area: 1 / 5 / 4 / 7; }
+.gallery-img6   { grid-area: 7 / 7 / 10 / 10; }
+.gallery-img7   { grid-area: 1 / 7 / 7 / 10; }
+.gallery-img8   { grid-area: 7 / 4 / 10 / 7; }
+.gallery-img9   { grid-area: 7 / 1 / 13 / 4; }
+.gallery-img10  { grid-area: 10 / 4 / 13 / 6; }
+.gallery-img11  { grid-area: 10 / 6 / 13 / 8; }
+.gallery-img12  { grid-area: 10 / 8 / 13 / 10; }
 
 /* ==================== STORY SECTION ==================== */
 .story-section {
@@ -1501,12 +1476,11 @@ body {
     }
 
     .gallery-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: repeat(7, 100px);
-        grid-column-gap: 8px;
-        grid-row-gap: 8px;
-        width: 100%;
+        /* Tetap 9 kolom */
+        grid-template-columns: repeat(9, 1fr);
+        /* Baris di HP menyesuaikan proporsi lebar layar */
+        grid-template-rows: repeat(12, 8vw); 
+        gap: 4px;
     }
 
     .gallery-img1,
@@ -1529,18 +1503,18 @@ body {
         transition: transform var(--transition-normal);
     }
 
-    .gallery-img1{ grid-area: 1 / 2 / 3 / 3; }
-    .gallery-img2{ grid-area: 3 / 2 / 5 / 3; }
-    .gallery-img3{ grid-area: 1 / 4 / 3 / 5; }
-    .gallery-img4{ grid-area: 3 / 4 / 5 / 5; }
-    .gallery-img5{ grid-area: 1 / 1 / 4 / 2; }
-    .gallery-img6{ grid-area: 4 / 1 / 6 / 2; }
-    .gallery-img7{ grid-area: 6 / 1 / 8 / 2; }
-    .gallery-img8{ grid-area: 5 / 2 / 8 / 3; }
-    .gallery-img9{ grid-area: 1 / 3 / 4 / 4; }
-    .gallery-img10 { grid-area: 4 / 3 / 6 / 4; }
-    .gallery-img11 { grid-area: 6 / 3 / 8 / 4; }
-    .gallery-img12 { grid-area: 5 / 4 / 8 / 5; }
+    .gallery-img1   { grid-area: 1 / 1 / 4 / 3; }
+.gallery-img2   { grid-area: 4 / 1 / 7 / 4; }
+.gallery-img3   { grid-area: 1 / 3 / 4 / 5; }
+.gallery-img4   { grid-area: 4 / 4 / 7 / 7; }
+.gallery-img5   { grid-area: 1 / 5 / 4 / 7; }
+.gallery-img6   { grid-area: 7 / 7 / 10 / 10; }
+.gallery-img7   { grid-area: 1 / 7 / 7 / 10; }
+.gallery-img8   { grid-area: 7 / 4 / 10 / 7; }
+.gallery-img9   { grid-area: 7 / 1 / 13 / 4; }
+.gallery-img10  { grid-area: 10 / 4 / 13 / 6; }
+.gallery-img11  { grid-area: 10 / 6 / 13 / 8; }
+.gallery-img12  { grid-area: 10 / 8 / 13 / 10; }
 }
 
 /* ==================== WHATSAPP SECTION ==================== */
@@ -1819,12 +1793,9 @@ body {
     }
 
     .gallery-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: repeat(7, 100px);
-        grid-column-gap: 8px;
-        grid-row-gap: 8px;
-        width: 100%;
+        /* Menggunakan aspect-ratio agar grid tetap kotak simetris di HP */
+        grid-template-rows: repeat(12, 10vw);
+        gap: 2px;
     }
 
     .gallery-img1,
@@ -1847,18 +1818,18 @@ body {
         transition: transform var(--transition-normal);
     }
 
-    .gallery-img1{ grid-area: 1 / 2 / 3 / 3; }
-    .gallery-img2{ grid-area: 3 / 2 / 5 / 3; }
-    .gallery-img3{ grid-area: 1 / 4 / 3 / 5; }
-    .gallery-img4{ grid-area: 3 / 4 / 5 / 5; }
-    .gallery-img5{ grid-area: 1 / 1 / 4 / 2; }
-    .gallery-img6{ grid-area: 4 / 1 / 6 / 2; }
-    .gallery-img7{ grid-area: 6 / 1 / 8 / 2; }
-    .gallery-img8{ grid-area: 5 / 2 / 8 / 3; }
-    .gallery-img9{ grid-area: 1 / 3 / 4 / 4; }
-    .gallery-img10 { grid-area: 4 / 3 / 6 / 4; }
-    .gallery-img11 { grid-area: 6 / 3 / 8 / 4; }
-    .gallery-img12 { grid-area: 5 / 4 / 8 / 5; }
+    .gallery-img1   { grid-area: 1 / 1 / 4 / 3; }
+.gallery-img2   { grid-area: 4 / 1 / 7 / 4; }
+.gallery-img3   { grid-area: 1 / 3 / 4 / 5; }
+.gallery-img4   { grid-area: 4 / 4 / 7 / 7; }
+.gallery-img5   { grid-area: 1 / 5 / 4 / 7; }
+.gallery-img6   { grid-area: 7 / 7 / 10 / 10; }
+.gallery-img7   { grid-area: 1 / 7 / 7 / 10; }
+.gallery-img8   { grid-area: 7 / 4 / 10 / 7; }
+.gallery-img9   { grid-area: 7 / 1 / 13 / 4; }
+.gallery-img10  { grid-area: 10 / 4 / 13 / 6; }
+.gallery-img11  { grid-area: 10 / 6 / 13 / 8; }
+.gallery-img12  { grid-area: 10 / 8 / 13 / 10; }
 
     .event-section {
         padding: var(--spacing-lg);

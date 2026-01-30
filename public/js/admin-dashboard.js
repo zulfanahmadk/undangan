@@ -398,7 +398,7 @@ function formatWhatsAppForSubmit(input) {
  * Send WhatsApp invitation with pre-composed message
  */
 function sendWhatsAppInvitation(phoneNumber, guestName, guestSlug, guestId) {
-    const invitationUrl = `https://wedding-pipit-pael.malahphotobooth.com/${guestSlug}`;
+    const invitationUrl = `https://wedding-salma-fadli.malahphotobooth.com/${guestSlug}`;
 
     const message = `Kepada Yth.
 Bapak/Ibu/Saudara/i
@@ -419,7 +419,7 @@ Terima Kasih
 Wassalamu'alaikum wr. wb.
 
 Hormat kami,
-Pipit & Pael
+Salma & Fadli
 ________`;
 
     // Encode message for URL

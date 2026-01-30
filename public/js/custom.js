@@ -129,8 +129,8 @@ function initAudioToggle() {
 
 // ==================== 3. COUNTDOWN TIMER ====================
 function initCountdown() {
-    // Target date: 17 Januari 2026, 08:00
-    const weddingDate = new Date('2026-01-17T08:00:00').getTime();
+    // Target date: 7 Februari 2026, 08:00
+    const weddingDate = new Date('2026-02-07T08:00:00').getTime();
 
     function updateTimer() {
         const now = new Date().getTime();
@@ -638,7 +638,7 @@ function initLocationButton() {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             // Buka Google Maps di tab baru
-            window.open('https://maps.app.goo.gl/PV3DLW1Ngjeua5Eu6', '_blank');
+            window.open('https://maps.app.goo.gl/sRiDURSTEeE8SxVu9', '_blank');
         });
     });
 }
