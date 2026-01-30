@@ -40,6 +40,9 @@
                 <div class="stat-info">
                     <div class="stat-label">Total Ucapan & Doa</div>
                     <div class="stat-value">{{ $totalWishes }}</div>
+                    <a href="{{ route('admin.wishes') }}" class="stat-link">
+                        Lihat Ucapan & Doa →
+                    </a>
                 </div>
             </div>
 
