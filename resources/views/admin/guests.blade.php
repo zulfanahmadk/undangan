@@ -36,14 +36,18 @@
         <div class="guests-section">
             <div class="guests-header">
                 <div class="stats">
-                    <div class="stat-card">
+                    <a href="{{ route('admin.guests') }}" class="stat-card stat-card-clickable {{ !$activeFilter ? 'stat-card-active' : '' }}">
                         <div class="stat-label">Total Tamu</div>
-                        <div class="stat-value">{{ $guests->total() }}</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Halaman</div>
-                        <div class="stat-value">{{ $guests->currentPage() }}/{{ $guests->lastPage() }}</div>
-                    </div>
+                        <div class="stat-value">{{ $statusCounts['total'] }}</div>
+                    </a>
+                    <a href="{{ route('admin.guests', ['status' => '1']) }}" class="stat-card stat-card-clickable {{ $activeFilter === '1' ? 'stat-card-active' : '' }}">
+                        <div class="stat-label">Terkirim</div>
+                        <div class="stat-value stat-value-sent">{{ $statusCounts['sent'] }}</div>
+                    </a>
+                    <a href="{{ route('admin.guests', ['status' => '2']) }}" class="stat-card stat-card-clickable {{ $activeFilter === '2' ? 'stat-card-active' : '' }}">
+                        <div class="stat-label">Belum Dikirim</div>
+                        <div class="stat-value stat-value-pending">{{ $statusCounts['pending'] }}</div>
+                    </a>
                 </div>
                 <div class="search-box">
                     <input type="text" class="search-input" id="searchInput" placeholder="Cari nama tamu...">

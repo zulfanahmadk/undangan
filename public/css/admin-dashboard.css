@@ -529,6 +529,24 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.stat-card-clickable {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.stat-card-clickable:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card-active {
+    border-color: #667eea;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+}
+
 .stat-label {
     color: #999;
     font-size: 12px;
@@ -540,6 +558,33 @@ body {
     font-size: 28px;
     color: #667eea;
     font-weight: 600;
+}
+
+.stat-value-sent {
+    color: #10b981;
+}
+
+.stat-value-pending {
+    color: #ef4444;
+}
+
+.guests-header {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.search-box {
+    padding: 0;
+    border: none;
+    margin: 0;
+    align-self: flex-start;
+}
+
+.search-input {
+    width: 100%;
+    max-width: 300px;
 }
 
 @media (max-width: 768px) {
@@ -591,5 +636,13 @@ body {
 
     .stats {
         grid-template-columns: 1fr;
+    }
+
+    .guests-header {
+        padding: 20px;
+    }
+
+    .search-input {
+        max-width: 100%;
     }
 }

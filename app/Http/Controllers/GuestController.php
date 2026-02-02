@@ -23,10 +23,29 @@ class GuestController extends Controller
         ]);
     }
 
-    public function guests()
+    public function guests(\Illuminate\Http\Request $request)
     {
-        $guests = Guest::orderBy('created_at', 'desc')->paginate(15);
-        return view('admin.guests', ['guests' => $guests]);
+        $query = Guest::orderBy('created_at', 'desc');
+        $statusFilter = $request->query('status');
+
+        if ($statusFilter && in_array($statusFilter, ['1', '2'])) {
+            $query->where('status', (int)$statusFilter);
+        }
+
+        $guests = $query->paginate(15);
+
+        // Calculate status counts
+        $statusCounts = [
+            'sent' => Guest::where('status', 1)->count(),
+            'pending' => Guest::where('status', 2)->count(),
+            'total' => Guest::count(),
+        ];
+
+        return view('admin.guests', [
+            'guests' => $guests,
+            'statusCounts' => $statusCounts,
+            'activeFilter' => $statusFilter,
+        ]);
     }
 
     public function store(Request $request)
